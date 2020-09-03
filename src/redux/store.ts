@@ -4,13 +4,13 @@ import { persistReducer, persistStore } from 'redux-persist';
 import { PublicSiteStoreState, publicSiteReducer } from './public_site_reducer';
 import logger from 'redux-logger';
 // @ts-ignore
-import storage from 'redux-persist/lib/storage';
+import AsyncStorage from '@react-native-community/async-storage';
 
 let publicStore: Store<PublicSiteStoreState>;
 
 const persistConfig = {
   key: 'root',
-  storage,
+  storage: AsyncStorage,
   blacklist: ['ixoStore', 'dynamicsStore'],
 };
 

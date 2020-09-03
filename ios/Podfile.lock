@@ -72,7 +72,7 @@ PODS:
   - OpenSSL-Universal (1.0.2.19):
     - OpenSSL-Universal/Static (= 1.0.2.19)
   - OpenSSL-Universal/Static (1.0.2.19)
-  - Permission-Camera (2.1.5):
+  - Permission-Camera (2.2.0):
     - RNPermissions
   - RCTRequired (0.63.2)
   - RCTTypeSafety (0.63.2):
@@ -240,13 +240,13 @@ PODS:
     - React-cxxreact (= 0.63.2)
     - React-jsi (= 0.63.2)
   - React-jsinspector (0.63.2)
-  - react-native-camera (3.37.0):
+  - react-native-camera (3.38.0):
     - React
-    - react-native-camera/RCT (= 3.37.0)
-    - react-native-camera/RN (= 3.37.0)
-  - react-native-camera/RCT (3.37.0):
+    - react-native-camera/RCT (= 3.38.0)
+    - react-native-camera/RN (= 3.38.0)
+  - react-native-camera/RCT (3.38.0):
     - React
-  - react-native-camera/RN (3.37.0):
+  - react-native-camera/RN (3.38.0):
     - React
   - react-native-image-picker (2.3.3):
     - React
@@ -319,9 +319,11 @@ PODS:
     - React-Core (= 0.63.2)
     - React-cxxreact (= 0.63.2)
     - React-jsi (= 0.63.2)
-  - RNGestureHandler (1.7.0):
+  - RNCAsyncStorage (1.12.0):
     - React
-  - RNPermissions (2.1.5):
+  - RNGestureHandler (1.8.0):
+    - React
+  - RNPermissions (2.2.0):
     - React
   - RNSVG (12.1.0):
     - React
@@ -385,6 +387,7 @@ DEPENDENCIES:
   - React-RCTText (from `../node_modules/react-native/Libraries/Text`)
   - React-RCTVibration (from `../node_modules/react-native/Libraries/Vibration`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
+  - "RNCAsyncStorage (from `../node_modules/@react-native-community/async-storage`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNPermissions (from `../node_modules/react-native-permissions`)
   - RNSVG (from `../node_modules/react-native-svg`)
@@ -471,6 +474,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/Libraries/Vibration"
   ReactCommon:
     :path: "../node_modules/react-native/ReactCommon"
+  RNCAsyncStorage:
+    :path: "../node_modules/@react-native-community/async-storage"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
   RNPermissions:
@@ -500,7 +505,7 @@ SPEC CHECKSUMS:
   Folly: aeb27d02cdff07ca01f8a8a5a6dd5bcaf6be6f70
   glog: 2ad46e202fbaa5641fceb4b2af37dcd88fd8762d
   OpenSSL-Universal: 8b48cc0d10c1b2923617dfe5c178aa9ed2689355
-  Permission-Camera: afad27bf90337684d4a86f3825112d648c8c4d3b
+  Permission-Camera: 9ff12884205fb282b4a22b9e8c358ba53cee7567
   RCTRequired: f13f25e7b12f925f1f6a6a8c69d929a03c0129fe
   RCTTypeSafety: 44982c5c8e43ff4141eb519a8ddc88059acd1f3a
   React: e1c65dd41cb9db13b99f24608e47dd595f28ca9a
@@ -511,7 +516,7 @@ SPEC CHECKSUMS:
   React-jsi: 54245e1d5f4b690dec614a73a3795964eeef13a8
   React-jsiexecutor: 8ca588cc921e70590820ce72b8789b02c67cce38
   React-jsinspector: b14e62ebe7a66e9231e9581279909f2fc3db6606
-  react-native-camera: 584d595599f45ba537e2c6fca05fb7173ccfaf59
+  react-native-camera: 74f48f9b6e198c77e2187b10aca39126971080b2
   react-native-image-picker: 3d3f85baabca60a00b75fb8facc1376db7bbdafa
   react-native-sensitive-info: 400c6e3d27945e15c8cddb5b4b92233c85ee06f8
   react-native-splash-screen: 200d11d188e2e78cea3ad319964f6142b6384865
@@ -526,8 +531,9 @@ SPEC CHECKSUMS:
   React-RCTText: 1b6773e776e4b33f90468c20fe3b16ca3e224bb8
   React-RCTVibration: 4d2e726957f4087449739b595f107c0d4b6c2d2d
   ReactCommon: a0a1edbebcac5e91338371b72ffc66aa822792ce
-  RNGestureHandler: b6b359bb800ae399a9c8b27032bdbf7c18f08a08
-  RNPermissions: ad71dd4f767ec254f2cd57592fbee02afee75467
+  RNCAsyncStorage: 2a692bcb9b69b76a2f1a95f33db057129700af64
+  RNGestureHandler: 7a5833d0f788dbd107fbb913e09aa0c1ff333c39
+  RNPermissions: 477d88d0be7ecb0a7b344e4d5fbb0352de104626
   RNSVG: ce9d996113475209013317e48b05c21ee988d42e
   RNVectorIcons: da6fe858f5a65d7bbc3379540a889b0b12aa5976
   Yoga: 7740b94929bbacbddda59bf115b5317e9a161598
