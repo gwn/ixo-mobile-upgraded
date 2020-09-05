@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { NetInfo } from 'react-native';
 import { connect } from 'react-redux';
-import { withNamespaces } from 'react-i18next';
-import OnBoardingNavigator from './Routes';
+import { withTranslation } from 'react-i18next';
+import OnBoardingNavigatorS from './Routes';
 import { PublicSiteStoreState } from './redux/public_site_reducer';
 import { toggleConnection } from './redux/dynamics/dynamics_action_creators';
 import i18n from './i18n';
@@ -24,7 +24,7 @@ class TranslateStack extends React.Component<Props, {}> {
   }
 
   render() {
-    return <OnBoardingNavigator screenProps={{ t: i18n.getFixedT('') }} />;
+    return <OnBoardingNavigatorS screenProps={{ t: i18n.getFixedT('') }} />;
   }
 }
 
@@ -42,10 +42,9 @@ function mapDispatchToProps(dispatch: any): DispatchProps {
   };
 }
 
-const ReloadAppOnLanguageChange = withNamespaces('common', {
-  bindI18n: 'languageChanged',
-  bindStore: 'false',
-})(connect(mapStateToProps, mapDispatchToProps)(TranslateStack));
+const ReloadAppOnLanguageChange = withTranslation('translation')(
+  connect(mapStateToProps, mapDispatchToProps)(TranslateStack),
+);
 
 export default class Translator extends React.Component<{}, {}> {
   render() {

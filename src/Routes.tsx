@@ -1,4 +1,7 @@
-import { createStackNavigator, createDrawerNavigator, StackNavigator } from 'react-navigation';
+import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 
 import OnBoarding from './screens/Onboarding';
 import Login from './screens/Login';
@@ -18,31 +21,20 @@ import ViewClaim from './screens/ViewClaim';
 import SideBar from './components/SideBar';
 import Recover from './screens/Recover';
 
-const AppNavigator = createStackNavigator(
-	{
-		Projects: {
-			screen: Projects
-		},
-		SubmittedClaims: {
-			screen: SubmittedClaims
-		},
-		NewClaim: {
-			screen: NewClaim
-		},
-		ProjectDetails: {
-			screen: ProjectDetails
-		},
-		Claims: {
-			screen: Claims
-		},
-		ViewClaim: {
-			screen: ViewClaim
-		}
-	},
-	{
-		initialRouteName: 'Projects'
-	}
-);
+const AppNavigator = createStackNavigator();
+
+function AppNavigatorStack() {
+  return (
+    <AppNavigator.Navigator initialRouteName="Projects">
+      <AppNavigator.Screen name="Projects" component={Projects} />
+      <AppNavigator.Screen name="SubmittedClaims" component={SubmittedClaims} />
+      <AppNavigator.Screen name="NewClaim" component={NewClaim} />
+      <AppNavigator.Screen name="ProjectDetails" component={ProjectDetails} />
+      <AppNavigator.Screen name="Claims" component={Claims} />
+      <AppNavigator.Screen name="ViewClaim" component={ViewClaim} />
+    </AppNavigator.Navigator>
+  );
+}
 
 // const SettingsNavigator = createStackNavigator(
 // 	{
@@ -65,79 +57,76 @@ const AppNavigator = createStackNavigator(
 // 	}
 // );
 
-const HelpNavigator = createStackNavigator(
-	{
-		Help: { screen: Help }
-	},
-	{
-		initialRouteName: 'Help'
-	}
-);
+const HelpNavigator = createStackNavigator();
 
-const DrawerNavigator = createDrawerNavigator(
-	{
-		Drawer: { screen: AppNavigator },
-		// Settings: { screen: SettingsNavigator },
-		Help: { screen: HelpNavigator }
-	},
-	{
-		initialRouteName: 'Drawer',
-		contentComponent: SideBar
-	}
-);
+function HelpNavigatorStack() {
+  return (
+    <HelpNavigator.Navigator initialRouteName="Help">
+      <HelpNavigator.Screen name="Help" component={Help} />
+    </HelpNavigator.Navigator>
+  );
+}
 
-const OnBoardingNavigator = createStackNavigator(
-	{
-		Settings: { screen: Settings },
-		ConnectIXO: {
-			screen: ConnectIXO,
-			navigationOptions: {
-				header: null
-			}
-		},
-		OnBoarding: {
-			screen: OnBoarding,
-			navigationOptions: {
-				header: null
-			}
-		},
-		Login: {
-			screen: Login,
-			navigationOptions: {
-				header: null
-			}
-		},
-		Projects: {
-			screen: DrawerNavigator,
-			navigationOptions: {
-				header: null
-			}
-		},
-		Loading: {
-			screen: Loading,
-			navigationOptions: {
-				header: null
-			}
-		},
-		ScanQR: {
-			screen: ScanQR
-		},
-		ConnectIXOComplete: {
-			screen: ConnectIXOComplete,
-			navigationOptions: {
-				header: null
-			}
-		},
-		Register: {
-			screen: Register
-		},
-		Recover: {
-			screen: Recover
-		}
-	},
-	{
-		initialRouteName: 'OnBoarding'
-	}
-);
+const DrawerNavigator = createDrawerNavigator();
 
-export default OnBoardingNavigator;
+function DrawerNavigatorStack() {
+  return (
+    <DrawerNavigator.Navigator
+      initialRouteName="Drawer"
+      contentComponent={SideBar}>
+      <DrawerNavigator.Screen name="Drawer" component={AppNavigatorStack} />
+      <DrawerNavigator.Screen name="Help" component={HelpNavigatorStack} />
+    </DrawerNavigator.Navigator>
+  );
+}
+
+const OnBoardingNavigator = createStackNavigator();
+
+function OnBoardingNavigatorStack() {
+  return (
+    <OnBoardingNavigator.Navigator initialRouteName="OnBoarding">
+      {/* <OnBoardingNavigator.Screen name="Settings" component={Settings} />
+      <OnBoardingNavigator.Screen
+        name="ConnectIXO"
+        component={ConnectIXO}
+        options={{ header: null }}
+      /> */}
+      <OnBoardingNavigator.Screen
+        name="OnBoarding"
+        component={OnBoarding}
+        options={{ headerShown: false }}
+      />
+      {/* <OnBoardingNavigator.Screen
+        name="Login"
+        component={Login}
+        options={{ header: null }}
+      />
+      <OnBoardingNavigator.Screen
+        name="Projects"
+        component={DrawerNavigatorStack}
+        options={{ header: null }}
+      />
+      <OnBoardingNavigator.Screen
+        name="Loading"
+        component={Loading}
+        options={{ header: null }}
+      />
+      <OnBoardingNavigator.Screen name="ScanQR" component={ScanQR} />
+      <OnBoardingNavigator.Screen
+        name="ConnectIXOComplete"
+        component={ConnectIXOComplete}
+        options={{ header: null }}
+      />
+      <OnBoardingNavigator.Screen name="Register" component={Register} />
+      <OnBoardingNavigator.Screen name="Recover" component={Recover} /> */}
+    </OnBoardingNavigator.Navigator>
+  );
+}
+
+export default function OnBoardingNavigatorS() {
+  return (
+    <NavigationContainer>
+      <OnBoardingNavigatorStack />
+    </NavigationContainer>
+  );
+}
