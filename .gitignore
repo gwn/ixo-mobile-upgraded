@@ -21,13 +21,6 @@ DerivedData
 *.ipa
 *.xcuserstate
 
-!**/*.xcodeproj
-!**/*.pbxproj
-!**/*.xcworkspacedata
-!**/*.xcsettings
-!**/*.xcscheme
-project.xcworkspace
-
 # Android/IntelliJ
 #
 build/
@@ -35,18 +28,6 @@ build/
 .gradle
 local.properties
 *.iml
-/android/
-
-# Gradle
-/build/
-/RNTester/android/app/build/
-/RNTester/android/app/gradle/
-/RNTester/android/app/gradlew
-/RNTester/android/app/gradlew.bat
-/ReactAndroid/build/
-/ReactAndroid/gradle/
-/ReactAndroid/gradlew
-/ReactAndroid/gradlew.bat
 
 # node.js
 #
@@ -54,28 +35,15 @@ node_modules/
 npm-debug.log
 yarn-error.log
 
-*.log
-.nvm
-/bots/node_modules/
-package-lock.json
-
 # BUCK
 buck-out/
 \.buckd/
 *.keystore
 !debug.keystore
-
-/ReactAndroid/src/main/jni/prebuilt/lib/
-/ReactAndroid/src/main/gen
-
 # Android Studio
 .project
 .settings
 .classpath
-
-# Watchman
-.watchmanconfig
-
 # fastlane
 #
 # It is recommended to not store the screenshots in the git repo. Instead, use fastlane to re-generate the
@@ -92,45 +60,3 @@ buck-out/
 
 # CocoaPods
 /ios/Pods/
-
-/template/ios/Pods/
-/template/ios/Podfile.lock
-/RNTester/Gemfile.lock
-
-# Ignore RNTester specific Pods, but keep the __offline_mirrors__ here.
-RNTester/Pods/*
-!RNTester/Pods/__offline_mirrors
-
-# Test generated files
-/ReactAndroid/src/androidTest/assets/AndroidTestBundle.js
-*.js.meta
-
-/coverage
-/third-party
-
-# Root dir shouldn't have Xcode project
-/*.xcodeproj
-
-# ReactCommon subdir shouldn't have Xcode project
-/ReactCommon/**/*.xcodeproj
-RNTester/build
-
-# Libs that shouldn't have Xcode project
-/Libraries/FBLazyVector/**/*.xcodeproj
-/Libraries/FBReactNativeSpec/**/*.xcodeproj
-/Libraries/RCTRequired/**/*.xcodeproj
-/React/CoreModules/**/*.xcodeproj
-/packages/react-native-codegen/**/*.xcodeproj
-
-# react-native-codegen
-/packages/react-native-codegen/lib
-/ReactCommon/fabric/components/rncore/
-/schema-native-modules.json
-/schema-rncore.json
-
-# Visual studio
-.vscode
-.vs
-
-# Android memory profiler files
-*.hprof
