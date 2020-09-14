@@ -1,12 +1,12 @@
 import { SecureStorageKeys } from '../models/phoneStorage';
 import { IMnemonic, ISignature, ISovrinDid } from '../models/sovrin';
 import SInfo from 'react-native-sensitive-info';
-import sha256 from '@cryptography/sha256';
 
 const sovrin = require('sovrin-did');
+const CryptoJS = require('crypto-js');
 
 export function generateSovrinDID(mnemonic: string): ISovrinDid {
-  const seed = sha256(mnemonic, 'hex');
+  const seed = CryptoJS.SHA256(mnemonic).toString();
   // Convert SHA256 hash to Uint8Array
   const didSeed = new Uint8Array(32);
   for (let i = 0; i < 32; ++i) {
@@ -47,7 +47,7 @@ export function getSignature(payload: object): Promise<any> {
                   created: new Date(),
                   creator: `did:sov:${sovrinDid.did}`,
                   publicKey: sovrinDid.encryptionPublicKey,
-                  signatureValue: new Buffer(payloadSig)
+                  signatureValue: Buffer.from(payloadSig)
                     .slice(0, 64)
                     .toString('base64'),
                 };
@@ -67,7 +67,7 @@ export function getSignature(payload: object): Promise<any> {
 
 export function Encrypt(data: string, password: string) {
   const payloadString = data;
-  const payloadHex = new Buffer(payloadString).toString('hex');
+  const payloadHex = Buffer.from(payloadString).toString('hex');
   return CryptoJS.AES.encrypt(payloadHex, password);
 }
 
