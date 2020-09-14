@@ -1,0 +1,11 @@
+diff --git a/node_modules/sovrin-did/index.js b/node_modules/sovrin-did/index.js
+index b25486f..b3ce7a7 100644
+--- a/node_modules/sovrin-did/index.js
++++ b/node_modules/sovrin-did/index.js
+@@ -1,5 +1,6 @@
+ var nacl = require('tweetnacl')
+ var bs58 = require('bs58')
++import { Buffer } from 'buffer'
+ 
+ var fromSeed = function (seed) {
+   var x = nacl.sign.keyPair.fromSeed(seed)
