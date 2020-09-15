@@ -5,13 +5,17 @@ import Video from 'react-native-video';
 import AsyncStorage from '@react-native-community/async-storage';
 import { NavigationActions } from '@react-navigation/core';
 import { LocalStorageKeys } from '../models/phoneStorage';
-import OnBoardingStyles from '../styles/OnBoarding';
-import { ThemeColors } from '../styles/Colors';
+
 import { useTranslation } from 'react-i18next';
 import Swiper from 'react-native-swiper';
 import ConnectIXO from '../screens/ConnectIXO';
 import Loading from '../screens/Loading';
 
+// styles
+import OnBoardingStyles from '../styles/OnBoarding';
+import { ThemeColors } from '../styles/Colors';
+
+// assets
 import logo from '../../assets/logo.png';
 import makeAnImpact from '../../assets/ixoOnboarding1.mp4';
 

@@ -28,12 +28,15 @@ import {
 import DarkButton from '../components/DarkButton';
 import InputField from '../components/InputField';
 
+// styles
 import { ThemeColors } from '../styles/Colors';
 import RecoverStyles from '../styles/Recover';
 import RegisterStyles from '../styles/Register';
 
-const { width } = Dimensions.get('window');
+// assets
 import background from '../../assets/background_1.png';
+
+const { width } = Dimensions.get('window');
 
 const Recover = () => {
   const { t } = useTranslation();
@@ -75,6 +78,7 @@ const Recover = () => {
   };
 
   const handleConfirmMnemonic = async () => {
+    navigateToLogin();
     try {
       if (confirmPassword === '' || password === '' || username === '') {
         throw t('register:missingFields');

@@ -8,6 +8,7 @@ import OnBoarding from './screens/Onboarding';
 import Recover from './screens/Recover';
 import Register from './screens/Register';
 import ScanQR from './screens/ScanQR';
+import Login from './screens/Login';
 
 const OnBoardingNavigator = createStackNavigator();
 
@@ -22,6 +23,11 @@ function OnBoardingNavigatorStack() {
       <OnBoardingNavigator.Screen
         name="OnBoarding"
         component={OnBoarding}
+        options={{ headerShown: false }}
+      />
+      <OnBoardingNavigator.Screen
+        name="Login"
+        component={Login}
         options={{ headerShown: false }}
       />
       <OnBoardingNavigator.Screen
