@@ -153,9 +153,7 @@ const OnBoarding = () => {
         activeDotColor={ThemeColors.blue_medium}
         dotColor={ThemeColors.blue_light}
         showsButtons={false}
-        // @ts-ignore
         activeDotStyle={OnBoardingStyles.dotStyle}
-        // @ts-ignore
         dotStyle={OnBoardingStyles.dotStyle}>
         {renderSwiperSteps()}
       </Swiper>

@@ -9,15 +9,15 @@ import {
   Text,
   StatusBar,
 } from 'react-native';
+import { createStore } from 'redux';
 import { Provider } from 'react-redux';
-import { createAppStore } from './src/redux/store';
+import rootReducer from './src/redux/reducers';
 import './i18n';
 
-import Loading from './src/screens/Loading';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import MainNavigatorStack from './src/Routes';
 
-const store = createAppStore();
+const store = createStore(rootReducer);
 
 const App = () => {
   return (
@@ -40,10 +40,8 @@ const App = () => {
     //   </SafeAreaView>
     // </>
     <Root>
-      <Provider store={store.store}>
-        <PersistGate loading={<Loading />} persistor={store.persistor}>
-          <MainNavigatorStack />
-        </PersistGate>
+      <Provider store={store}>
+        <MainNavigatorStack />
       </Provider>
     </Root>
   );
