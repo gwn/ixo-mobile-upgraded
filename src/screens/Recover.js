@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   ImageBackground,
   StatusBar,
@@ -6,11 +6,16 @@ import {
   TextInput,
   Dimensions,
 } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
+import { initIxo } from '../redux/ixo/actions';
+import { initUser } from '../redux/user/actions';
 import { Container, Icon, Text, View, Content } from 'native-base';
 import SInfo from 'react-native-sensitive-info';
 import { useNavigation } from '@react-navigation/native';
 import { CommonActions } from '@react-navigation/core';
 import { useTranslation } from 'react-i18next';
+
+import { env } from '../config';
 
 import { showToast, toastType } from '../utils/toasts';
 import { Encrypt, generateSovrinDID } from '../utils/sovrin';
@@ -30,20 +35,32 @@ import RegisterStyles from '../styles/Register';
 const { width } = Dimensions.get('window');
 import background from '../../assets/background_1.png';
 
-const Recover = ({ ixo, onUserInit }) => {
+const Recover = () => {
   const { t } = useTranslation();
   const navigation = useNavigation();
+  const dispatch = useDispatch();
+  const ixo = useSelector((state) => state.ixo);
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [mnemonic, setMnemonic] = useState('');
 
+  useEffect(() => {
+    dispatch(
+      initIxo(env.REACT_APP_BLOCKCHAIN_IP, env.REACT_APP_BLOCK_SYNC_URL),
+    );
+  }, []);
+
   const isLedgered = (did) => {
+    console.log('did: ', did);
+
     return new Promise((resolve, reject) => {
-      ixo.user
+      console.log('ixo: ', ixo.ixo);
+      ixo.ixo.user
         .getDidDoc(did)
         .then((response) => {
+          console.log('response did: ', response);
           const { error = false } = response;
           if (error) {
             return reject(t('recover:userNotFound'));
@@ -72,10 +89,11 @@ const Recover = ({ ixo, onUserInit }) => {
         throw t('recover:secretPhrase');
       }
 
+      console.log('mnemonic:', mnemonic);
       const sovrin = generateSovrinDID(mnemonic);
-
+      console.log('sorvin:', sovrin);
       const ledgered = await isLedgered('did:sov:' + sovrin.did);
-
+      console.log('ledgered:', ledgered);
       if (ledgered) {
         const encryptedMnemonic = Encrypt(
           JSON.stringify({ mnemonic: mnemonic, name: username }),
@@ -98,7 +116,7 @@ const Recover = ({ ixo, onUserInit }) => {
         // AsyncStorage.setItem(UserStorageKeys.name, user.name);
         // AsyncStorage.setItem(UserStorageKeys.did, user.did);
         // AsyncStorage.setItem(UserStorageKeys.verifyKey, user.verifyKey);
-        onUserInit(user);
+        initUser(user);
         navigateToLogin();
       }
     } catch (exception) {
@@ -168,13 +186,13 @@ const Recover = ({ ixo, onUserInit }) => {
                 onChangeText={(text) => setUsername(text)}
               />
               <InputField
-                password={true}
+                //password={true}
                 value={password}
                 labelName={t('register:newPassword')}
                 onChangeText={(text) => setPassword(text)}
               />
               <InputField
-                password={true}
+                //password={true}
                 value={confirmPassword}
                 labelName={t('register:confirmPassword')}
                 onChangeText={(text) => setConfirmPassword(text)}

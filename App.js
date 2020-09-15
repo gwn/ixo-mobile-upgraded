@@ -9,11 +9,15 @@ import {
   Text,
   StatusBar,
 } from 'react-native';
-
+import { createStore } from 'redux';
+import { Provider } from 'react-redux';
+import rootReducer from './src/redux/reducers';
 import './i18n';
 
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import MainNavigatorStack from './src/Routes';
+
+const store = createStore(rootReducer);
 
 const App = () => {
   return (
@@ -36,7 +40,9 @@ const App = () => {
     //   </SafeAreaView>
     // </>
     <Root>
-      <MainNavigatorStack />
+      <Provider store={store}>
+        <MainNavigatorStack />
+      </Provider>
     </Root>
   );
 };
