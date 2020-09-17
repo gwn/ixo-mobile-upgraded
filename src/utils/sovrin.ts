@@ -1,6 +1,7 @@
 import { SecureStorageKeys } from '../models/phoneStorage';
 import { IMnemonic, ISignature, ISovrinDid } from '../models/sovrin';
 import SInfo from 'react-native-sensitive-info';
+import { Buffer } from 'buffer';
 
 const sovrin = require('sovrin-did');
 const CryptoJS = require('crypto-js');

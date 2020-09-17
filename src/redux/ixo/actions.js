@@ -1,9 +1,9 @@
 export const IXO_RESULT = 'IXO_RESULT';
-import { Ixo } from 'ixo-module';
+import { Ixo } from '@ixo/ixo-apimodule';
 
-export const initIxo = (BLOCKCHAIN_IP, BLOCK_SYNC_URL) => {
-  if (BLOCKCHAIN_IP && BLOCK_SYNC_URL) {
-    const ixo = new Ixo(BLOCKCHAIN_IP, BLOCK_SYNC_URL);
+export const initIxo = (BLOCK_SYNC_URL) => {
+  if (BLOCK_SYNC_URL) {
+    const ixo = new Ixo(BLOCK_SYNC_URL);
     return {
       type: IXO_RESULT,
       payload: {

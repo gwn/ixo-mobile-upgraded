@@ -18,7 +18,7 @@ import SInfo from 'react-native-sensitive-info';
 import { SecureStorageKeys } from '../models/phoneStorage';
 import { showToast, toastType } from '../utils/toasts';
 
-import { isPasswordSet, onUserPasswordSet } from '../redux/user/actions';
+import { isPasswordSet, userSetPassword } from '../redux/user/actions';
 
 import CustomIcon from '../components/svg/CustomIcons';
 import InputField from '../components/InputField';
@@ -109,7 +109,7 @@ const Login = () => {
     }
 
     SInfo.setItem(SecureStorageKeys.password, password, {});
-    onUserPasswordSet();
+    userSetPassword();
     const resetAction = CommonActions.reset({
       index: 0,
       routes: [{ name: 'Projects' }],

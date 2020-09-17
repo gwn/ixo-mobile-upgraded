@@ -43,6 +43,7 @@ const Recover = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const ixo = useSelector((state) => state.ixo);
+  const currUser = useSelector((state) => state.user);
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -50,20 +51,14 @@ const Recover = () => {
   const [mnemonic, setMnemonic] = useState('');
 
   useEffect(() => {
-    dispatch(
-      initIxo(env.REACT_APP_BLOCKCHAIN_IP, env.REACT_APP_BLOCK_SYNC_URL),
-    );
+    dispatch(initIxo(env.REACT_APP_BLOCK_SYNC_URL));
   }, []);
 
   const isLedgered = (did) => {
-    console.log('did: ', did);
-
     return new Promise((resolve, reject) => {
-      console.log('ixo: ', ixo.ixo);
       ixo.ixo.user
         .getDidDoc(did)
         .then((response) => {
-          console.log('response did: ', response);
           const { error = false } = response;
           if (error) {
             return reject(t('recover:userNotFound'));
@@ -71,14 +66,13 @@ const Recover = () => {
           return resolve(true);
         })
         .catch((error) => {
-          console.log(error);
           showToast('Error occured', toastType.DANGER);
         });
     });
   };
 
   const handleConfirmMnemonic = async () => {
-    navigateToLogin();
+    //navigateToLogin();
     try {
       if (confirmPassword === '' || password === '' || username === '') {
         throw t('register:missingFields');
@@ -93,11 +87,8 @@ const Recover = () => {
         throw t('recover:secretPhrase');
       }
 
-      console.log('mnemonic:', mnemonic);
       const sovrin = generateSovrinDID(mnemonic);
-      console.log('sorvin:', sovrin);
       const ledgered = await isLedgered('did:sov:' + sovrin.did);
-      console.log('ledgered:', ledgered);
       if (ledgered) {
         const encryptedMnemonic = Encrypt(
           JSON.stringify({ mnemonic: mnemonic, name: username }),
@@ -120,7 +111,8 @@ const Recover = () => {
         // AsyncStorage.setItem(UserStorageKeys.name, user.name);
         // AsyncStorage.setItem(UserStorageKeys.did, user.did);
         // AsyncStorage.setItem(UserStorageKeys.verifyKey, user.verifyKey);
-        initUser(user);
+
+        dispatch(initUser(user));
         navigateToLogin();
       }
     } catch (exception) {
