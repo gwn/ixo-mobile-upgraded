@@ -7,6 +7,6 @@ import { userReducer } from './user/reducers';
 export default combineReducers({
   ixo: ixoReducer,
   user: userReducer,
-  projects: projectReducer,
+  projectsStore: projectReducer,
   dynamicsStore: dynamicsReducer,
 });
