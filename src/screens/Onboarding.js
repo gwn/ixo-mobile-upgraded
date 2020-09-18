@@ -130,17 +130,11 @@ const OnBoarding = () => {
           },
         );
       case 2:
-        return [
-          <View key={0} />,
-          <View key={1} />,
-          <ConnectIXO
-            key={2}
-            // navigation={this.props.navigation}
-            // screenProps={this.props.screenProps}
-          />,
-        ].map((element) => {
-          return element;
-        });
+        return [<View key={0} />, <View key={1} />, <ConnectIXO key={2} />].map(
+          (element) => {
+            return element;
+          },
+        );
       default:
         return null;
     }
