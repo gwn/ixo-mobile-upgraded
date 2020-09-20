@@ -1,15 +1,15 @@
-import React from 'react';
-import { View, TouchableOpacity, Dimensions } from 'react-native';
+import * as React from 'react';
+import { View, ViewStyle, TouchableOpacity, Dimensions } from 'react-native';
 import { TextField } from 'react-native-material-textfield';
 
 import { ThemeColors } from '../styles/Colors';
 
 const { height } = Dimensions.get('window');
 
-export const InputColorTypes = {
-  Light: 0,
-  Dark: 1,
-};
+export enum InputColorTypes {
+  Light,
+  Dark,
+}
 
 const darkPalettes = {
   baseColor: ThemeColors.blue_lightest,
@@ -25,7 +25,22 @@ const lightPalettes = {
   textColor: ThemeColors.grey,
 };
 
-class InputField extends React.Component {
+interface ParentProps {
+  password?: boolean;
+  labelName?: string;
+  onChangeText: any;
+  value?: string;
+  suffixIcon?: JSX.Element;
+  disable?: boolean;
+  colorPalette?: InputColorTypes;
+  prefixIcon?: JSX.Element;
+  containerStyle?: ViewStyle;
+  onSuffixImagePress?: Function;
+  underlinePositionRatio?: number;
+  error?: string;
+}
+
+class InputField extends React.Component<ParentProps> {
   render() {
     if (this.props.labelName && !this.props.prefixIcon) {
       return (
