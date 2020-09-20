@@ -20,28 +20,20 @@ index 0f85022..e2dede9 100644
      color: PropTypes.string.isRequired,
      fontSize: PropTypes.number.isRequired,
 diff --git a/node_modules/react-native-material-textfield/src/components/helper/index.js b/node_modules/react-native-material-textfield/src/components/helper/index.js
-index 6060f9f..98b3c64 100644
+index 6060f9f..28c3aac 100644
 --- a/node_modules/react-native-material-textfield/src/components/helper/index.js
 +++ b/node_modules/react-native-material-textfield/src/components/helper/index.js
-@@ -1,6 +1,6 @@
- import PropTypes from 'prop-types';
- import React, { PureComponent } from 'react';
--import { Animated } from 'react-native';
-+import { Animated, Text } from 'react-native';
- 
- import styles from './styles';
- 
 @@ -11,7 +11,7 @@ export default class Helper extends PureComponent {
  
      disabled: PropTypes.bool,
  
 -    style: Animated.Text.propTypes.style,
-+    style: Text.propType,
++    style: PropTypes.string,
  
      baseColor: PropTypes.string,
      errorColor: PropTypes.string,
 diff --git a/node_modules/react-native-material-textfield/src/components/label/index.js b/node_modules/react-native-material-textfield/src/components/label/index.js
-index 82eaf03..2b9038d 100644
+index 82eaf03..6887253 100644
 --- a/node_modules/react-native-material-textfield/src/components/label/index.js
 +++ b/node_modules/react-native-material-textfield/src/components/label/index.js
 @@ -1,6 +1,6 @@
@@ -57,7 +49,7 @@ index 82eaf03..2b9038d 100644
      }),
  
 -    style: Animated.Text.propTypes.style,
-+    style: Text.propType,
++    style: PropTypes.string,
      label: PropTypes.string,
    };
  
