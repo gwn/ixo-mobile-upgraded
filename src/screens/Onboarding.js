@@ -22,7 +22,6 @@ import makeAnImpact from '../../assets/ixoOnboarding1.mp4';
 const OnBoarding = () => {
   const { t } = useTranslation();
   const [showOnboarding, setShowOnboarding] = useState(false);
-  const [swiperIndex, setSwiperIndex] = useState(0);
 
   const getData = async () => {
     try {
@@ -49,7 +48,7 @@ const OnBoarding = () => {
 
   const renderStepOne = () => {
     return (
-      <View style={OnBoardingStyles.onboardingContainer}>
+      <View style={OnBoardingStyles.onboardingContainer} key={0}>
         <View style={OnBoardingStyles.logoContainer}>
           <Image
             resizeMode={'contain'}
@@ -83,7 +82,7 @@ const OnBoarding = () => {
 
   const renderStepTwo = () => {
     return (
-      <View style={OnBoardingStyles.onboardingContainer}>
+      <View style={OnBoardingStyles.onboardingContainer} key={1}>
         <View style={OnBoardingStyles.logoContainer}>
           <Image
             resizeMode={'contain'}
@@ -116,28 +115,11 @@ const OnBoarding = () => {
   };
 
   const renderSwiperSteps = () => {
-    switch (swiperIndex) {
-      case 0:
-        return [renderStepOne(), <View key={1} />, <View key={2} />].map(
-          (element) => {
-            return element;
-          },
-        );
-      case 1:
-        return [<View key={0} />, renderStepTwo(), <View key={2} />].map(
-          (element) => {
-            return element;
-          },
-        );
-      case 2:
-        return [<View key={0} />, <View key={1} />, <ConnectIXO key={2} />].map(
-          (element) => {
-            return element;
-          },
-        );
-      default:
-        return null;
-    }
+    return [renderStepOne(), renderStepTwo(), <ConnectIXO key={2} />].map(
+      (element) => {
+        return element;
+      },
+    );
   };
 
   return showOnboarding ? (
@@ -145,8 +127,6 @@ const OnBoarding = () => {
       <StatusBar barStyle="light-content" />
       <Swiper
         loop={false}
-        // ref={(swiper) => (swiperRef = swiper)}
-        onIndexChanged={(index) => setSwiperIndex(index)}
         scrollEnabled={true}
         activeDotColor={ThemeColors.blue_medium}
         dotColor={ThemeColors.blue_light}
