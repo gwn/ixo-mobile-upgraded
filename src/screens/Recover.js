@@ -14,6 +14,7 @@ import SInfo from 'react-native-sensitive-info';
 import { useNavigation } from '@react-navigation/native';
 import { CommonActions } from '@react-navigation/core';
 import { useTranslation } from 'react-i18next';
+import AsyncStorage from '@react-native-community/async-storage';
 
 import { env } from '../config';
 
@@ -42,8 +43,8 @@ const Recover = () => {
   const { t } = useTranslation();
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const ixo = useSelector((state) => state.ixo);
-  const currUser = useSelector((state) => state.user);
+  const ixoStore = useSelector((state) => state.ixoStore);
+  const userStore = useSelector((state) => state.userStore);
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -56,7 +57,7 @@ const Recover = () => {
 
   const isLedgered = (did) => {
     return new Promise((resolve, reject) => {
-      ixo.ixo.user
+      ixoStore.ixo.user
         .getDidDoc(did)
         .then((response) => {
           const { error = false } = response;
@@ -66,13 +67,12 @@ const Recover = () => {
           return resolve(true);
         })
         .catch((error) => {
-          showToast('Error occured', toastType.DANGER);
+          showToast(`Error occured: ${error}`, toastType.DANGER);
         });
     });
   };
 
   const handleConfirmMnemonic = async () => {
-    //navigateToLogin();
     try {
       if (confirmPassword === '' || password === '' || username === '') {
         throw t('register:missingFields');
@@ -102,15 +102,24 @@ const Recover = () => {
         );
 
         SInfo.setItem(SecureStorageKeys.password, password, {});
-        // AsyncStorage.setItem(LocalStorageKeys.firstLaunch, 'true'); // stop first time onboarding
+        try {
+          await AsyncStorage.setItem(LocalStorageKeys.firstLaunch, 'true');
+        } catch (e) {
+          showToast(`Internal store error: ${e}`, toastType.DANGER);
+        }
+
         const user = {
           did: 'did:sov:' + sovrin.did,
           name: username,
           verifyKey: sovrin.verifyKey,
         };
-        // AsyncStorage.setItem(UserStorageKeys.name, user.name);
-        // AsyncStorage.setItem(UserStorageKeys.did, user.did);
-        // AsyncStorage.setItem(UserStorageKeys.verifyKey, user.verifyKey);
+        try {
+          await AsyncStorage.setItem(UserStorageKeys.name, user.name);
+          await AsyncStorage.setItem(UserStorageKeys.did, user.did);
+          await AsyncStorage.setItem(UserStorageKeys.verifyKey, user.verifyKey);
+        } catch (e) {
+          showToast(`Internal store error: ${e}`, toastType.DANGER);
+        }
 
         dispatch(initUser(user));
         navigateToLogin();
@@ -182,13 +191,13 @@ const Recover = () => {
                 onChangeText={(text) => setUsername(text)}
               />
               <InputField
-                //password={true}
+                password={true}
                 value={password}
                 labelName={t('register:newPassword')}
                 onChangeText={(text) => setPassword(text)}
               />
               <InputField
-                //password={true}
+                password={true}
                 value={confirmPassword}
                 labelName={t('register:confirmPassword')}
                 onChangeText={(text) => setConfirmPassword(text)}
