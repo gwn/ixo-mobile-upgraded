@@ -7,15 +7,28 @@ import {
   StatusBar,
   TouchableOpacity,
 } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
+import { initUser } from '../redux/user/actions';
 import { useTranslation } from 'react-i18next';
 import { useNavigation } from '@react-navigation/native';
-import CustomIcon from '../components/svg/CustomIcons';
+import { CommonActions } from '@react-navigation/core';
+import SInfo from 'react-native-sensitive-info';
+import AsyncStorage from '@react-native-community/async-storage';
+
 import _ from 'underscore';
 import LinearGradient from 'react-native-linear-gradient';
 
+import CustomIcon from '../components/svg/CustomIcons';
 import DarkButton from '../components/DarkButton';
 import InputField from '../components/InputField';
+
 import { showToast, toastType } from '../utils/toasts';
+import { Encrypt, generateSovrinDID, getSignature } from '../utils/sovrin';
+import {
+  LocalStorageKeys,
+  SecureStorageKeys,
+  UserStorageKeys,
+} from '../models/phoneStorage';
 
 import RegisterStyles from '../styles/Register';
 import { ButtonDark, ThemeColors } from '../styles/Colors';
@@ -35,6 +48,9 @@ const registerSteps = {
 const Register = () => {
   const { t } = useTranslation();
   const navigation = useNavigation();
+  const dispatch = useDispatch();
+  const ixoStore = useSelector((state) => state.ixoStore);
+  const userStore = useSelector((state) => state.userStore);
 
   const [registerState, setRegisterState] = useState(
     registerSteps.captureDetails,
@@ -116,6 +132,84 @@ const Register = () => {
       mnemonicString.push(mnemonicValue.word);
     });
     return mnemonicString.join(' ');
+  };
+
+  const handleConfirmMnemonic = () => {
+    setLoading(true);
+    if (getMnemonicString(selectedWords) !== mnemonic) {
+      setErrorMismatch(true);
+      setLoading(true);
+    } else {
+      const encryptedMnemonic = Encrypt(
+        JSON.stringify({
+          mnemonic: mnemonic,
+          name: username,
+        }),
+        password,
+      ); // encrypt securely on phone enlave
+
+      SInfo.setItem(
+        SecureStorageKeys.encryptedMnemonic,
+        encryptedMnemonic.toString(),
+        {},
+      );
+
+      AsyncStorage.setItem(LocalStorageKeys.firstLaunch, 'true'); // stop first time onboarding
+
+      const user = {
+        did: 'did:sov:' + generateSovrinDID(mnemonic).did,
+        name: username,
+        verifyKey: generateSovrinDID(mnemonic).verifyKey,
+      };
+
+      AsyncStorage.setItem(UserStorageKeys.name, user.name);
+      AsyncStorage.setItem(UserStorageKeys.did, user.did);
+      AsyncStorage.setItem(UserStorageKeys.verifyKey, user.verifyKey);
+
+      dispatch(initUser(user));
+      ledgerDidOnBlockChain(user.did, user.verifyKey);
+    }
+  };
+
+  const navigateToLogin = () => {
+    const resetAction = CommonActions.reset({
+      index: 0,
+      routes: [{ name: 'Login' }],
+    });
+    navigation.dispatch(resetAction);
+  };
+
+  const ledgerDidOnBlockChain = (did, pubKey) => {
+    const newDidDoc = {
+      did,
+      pubKey,
+      credentials: [],
+    };
+    const payload = { didDoc: newDidDoc };
+
+    getSignature(payload)
+      .then((signature) => {
+        ixoStore
+          .registerUserDid(payload, signature)
+          .then((response) => {
+            if (response.code === 0) {
+              showToast(t('register:didLedgeredSuccess'), toastType.SUCCESS);
+              navigateToLogin();
+            } else {
+              showToast(t('register:didLedgeredError'), toastType.DANGER);
+              setLoading(false);
+            }
+            console.log('Error', response);
+          })
+          .catch((error) => {
+            console.log('Error', error);
+            showToast(t('register:failedToLedgerUser'), toastType.DANGER);
+            setLoading(false);
+          });
+      })
+      .catch((error) => {
+        console.log('Error', error);
+      });
   };
 
   const handleCreatePassword = () => {
@@ -323,7 +417,7 @@ const Register = () => {
               loading={loading}
               disabled={!userEnteredMnemonicCorrect}
               text={t('register:confirm')}
-              onPress={() => this.handleConfirmMnemonic()}
+              onPress={() => handleConfirmMnemonic()}
             />
           </View>
         );

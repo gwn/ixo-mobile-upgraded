@@ -3,7 +3,8 @@ import { Image, StatusBar, View } from 'react-native';
 import { Text } from 'native-base';
 import Video from 'react-native-video';
 import AsyncStorage from '@react-native-community/async-storage';
-import { NavigationActions } from '@react-navigation/core';
+import { CommonActions } from '@react-navigation/core';
+import { useNavigation } from '@react-navigation/native';
 import { LocalStorageKeys } from '../models/phoneStorage';
 
 import { useTranslation } from 'react-i18next';
@@ -21,19 +22,22 @@ import makeAnImpact from '../../assets/ixoOnboarding1.mp4';
 
 const OnBoarding = () => {
   const { t } = useTranslation();
+  const navigation = useNavigation();
   const [showOnboarding, setShowOnboarding] = useState(false);
 
   const getData = async () => {
+    //fir debug
+    AsyncStorage.clear();
     try {
       const isFirstLaunch = await AsyncStorage.getItem(
         LocalStorageKeys.firstLaunch,
       );
       if (isFirstLaunch) {
-        NavigationActions.reset({
-          key: null,
+        const resetAction = CommonActions.reset({
           index: 0,
-          actions: [NavigationActions.navigate({ routeName: 'home' })],
+          routes: [{ name: 'Login' }],
         });
+        navigation.dispatch(resetAction);
       } else {
         setShowOnboarding(true);
       }
