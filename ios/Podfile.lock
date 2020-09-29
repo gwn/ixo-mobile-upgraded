@@ -238,16 +238,16 @@ PODS:
     - React-cxxreact (= 0.63.2)
     - React-jsi (= 0.63.2)
   - React-jsinspector (0.63.2)
-  - react-native-camera (3.39.0):
-    - React
-    - react-native-camera/RCT (= 3.39.0)
-    - react-native-camera/RN (= 3.39.0)
-  - react-native-camera/RCT (3.39.0):
-    - React
-  - react-native-camera/RN (3.39.0):
-    - React
-  - react-native-safe-area-context (3.1.7):
-    - React
+  - react-native-camera (3.39.1):
+    - React-Core
+    - react-native-camera/RCT (= 3.39.1)
+    - react-native-camera/RN (= 3.39.1)
+  - react-native-camera/RCT (3.39.1):
+    - React-Core
+  - react-native-camera/RN (3.39.1):
+    - React-Core
+  - react-native-safe-area-context (3.1.8):
+    - React-Core
   - react-native-sensitive-info (5.5.8):
     - React
   - react-native-video (5.1.0-alpha8):
@@ -323,11 +323,11 @@ PODS:
     - React
   - RNReanimated (1.13.0):
     - React
-  - RNScreens (2.10.1):
+  - RNScreens (2.11.0):
     - React
   - RNSVG (12.1.0):
     - React
-  - RNVectorIcons (7.0.0):
+  - RNVectorIcons (7.1.0):
     - React
   - Yoga (1.14.0)
   - YogaKit (1.18.1):
@@ -515,8 +515,8 @@ SPEC CHECKSUMS:
   React-jsi: 54245e1d5f4b690dec614a73a3795964eeef13a8
   React-jsiexecutor: 8ca588cc921e70590820ce72b8789b02c67cce38
   React-jsinspector: b14e62ebe7a66e9231e9581279909f2fc3db6606
-  react-native-camera: e39c8ef9f21163c8873ad0a95960a4f58eea2320
-  react-native-safe-area-context: fcece23844742b6f7f0627c3715b806a7deff946
+  react-native-camera: fc1296181b2d393ea698164869070c96d8625129
+  react-native-safe-area-context: 01158a92c300895d79dee447e980672dc3fb85a6
   react-native-sensitive-info: 400c6e3d27945e15c8cddb5b4b92233c85ee06f8
   react-native-video: 8d97379f3c2322a569f1e27542ad1a646cad9444
   React-RCTActionSheet: 910163b6b09685a35c4ebbc52b66d1bfbbe39fc5
@@ -533,9 +533,9 @@ SPEC CHECKSUMS:
   RNCMaskedView: f5c7d14d6847b7b44853f7acb6284c1da30a3459
   RNGestureHandler: 7a5833d0f788dbd107fbb913e09aa0c1ff333c39
   RNReanimated: 89f5e0a04d1dd52fbf27e7e7030d8f80a646a3fc
-  RNScreens: b748efec66e095134c7166ca333b628cd7e6f3e2
+  RNScreens: 0e91da98ab26d5d04c7b59a9b6bd694124caf88c
   RNSVG: ce9d996113475209013317e48b05c21ee988d42e
-  RNVectorIcons: da6fe858f5a65d7bbc3379540a889b0b12aa5976
+  RNVectorIcons: bc69e6a278b14842063605de32bec61f0b251a59
   Yoga: 7740b94929bbacbddda59bf115b5317e9a161598
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
