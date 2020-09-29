@@ -3,12 +3,12 @@ let env = {};
 if (Platform.OS === 'android') {
   env = {
     REACT_APP_BLOCKCHAIN_IP: 'http://androidblockchainmobile.ixo.world',
-    REACT_APP_BLOCK_SYNC_URL: 'https://block_sync_pandora.ixo.world',
+    REACT_APP_BLOCK_SYNC_URL: 'http://block_sync_pandora.ixo.world',
   };
 } else {
   env = {
     REACT_APP_BLOCKCHAIN_IP: 'http://appleblockchainmobile.ixo.world',
-    REACT_APP_BLOCK_SYNC_URL: 'https://block_sync_pandora.ixo.world',
+    REACT_APP_BLOCK_SYNC_URL: 'http://block_sync_pandora.ixo.world',
   };
 }
 
