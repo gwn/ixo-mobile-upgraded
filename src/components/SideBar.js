@@ -1,10 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {
-  Image,
-  TouchableOpacity,
-  AsyncStorage,
-  Dimensions,
-} from 'react-native';
+import { Image, TouchableOpacity, Dimensions } from 'react-native';
 import { View, Text, Container } from 'native-base';
 import { useNavigation } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
@@ -37,6 +32,7 @@ const SideBar = () => {
     try {
       const newName = await AsyncStorage.getItem(UserStorageKeys.name);
       const newDid = await AsyncStorage.getItem(UserStorageKeys.did);
+
       setName(newName);
       setDid(newDid);
     } catch (error) {
@@ -81,7 +77,7 @@ const SideBar = () => {
           <Text style={SideBarStyles.textLinks}>{t('sidebar:settings')}</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => this.props.navigation.navigate('Help')}
+          onPress={() => navigation.navigate('Help')}
           style={[ContainerStyles.flexRow, SideBarStyles.linkBox]}>
           <Image source={helpIcon} style={SideBarStyles.iconLinks} />
           <Text style={SideBarStyles.textLinks}>{t('sidebar:help')}</Text>
@@ -90,8 +86,7 @@ const SideBar = () => {
       <LinearGradient
         colors={[SignOutBox.colorSecondary, SignOutBox.colorPrimary]}
         style={[ContainerStyles.flexColumn, SideBarStyles.signOutBox]}>
-        <TouchableOpacity
-          onPress={() => this.props.navigation.navigate('Login')}>
+        <TouchableOpacity onPress={() => navigation.navigate('Login')}>
           <Text style={SideBarStyles.signOut}>{t('sidebar:signOut')}</Text>
         </TouchableOpacity>
       </LinearGradient>

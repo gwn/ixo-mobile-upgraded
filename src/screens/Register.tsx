@@ -69,7 +69,9 @@ const Register = () => {
   const [loading, setLoading] = useState(false);
 
   const generateMnemonic = async () => {
+    console.log('=== Enter generateMnemonic func ===');
     const newMnemonic = await bip39.generateMnemonic();
+    console.log('newMnemonic: ', newMnemonic);
     const mnemonicArray = [];
     _.each(shuffleArray(newMnemonic.split(' ')), (word, index) => {
       mnemonicArray.push({ key: index, word, selected: false });

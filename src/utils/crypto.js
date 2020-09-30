@@ -1,3 +1,4 @@
+var crypto;
 (function () {
   function r(e, n, t) {
     function o(i, f) {
@@ -33378,8 +33379,7 @@
     ],
     194: [
       function (reqqq, module, exports) {
-        var crypto = reqqq('crypto');
-        module.exports = crypto;
+        crypto = require('crypto');
       },
       { crypto: 73 },
     ],
@@ -33387,3 +33387,5 @@
   {},
   [194],
 );
+
+module.exports = crypto;

@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
 import { Text, Toast } from 'native-base';
 import Video from 'react-native-video';
 import { useNavigation } from '@react-navigation/native';
@@ -18,7 +19,7 @@ import SInfo from 'react-native-sensitive-info';
 import { SecureStorageKeys } from '../models/phoneStorage';
 import { showToast, toastType } from '../utils/toasts';
 
-import { isPasswordSet, userSetPassword } from '../redux/user/actions';
+import { userSetPassword } from '../redux/user/actions';
 
 import CustomIcon from '../components/svg/CustomIcons';
 import InputField from '../components/InputField';
@@ -37,6 +38,8 @@ import IconFingerprint from '../../assets/iconFingerprint.png';
 const Login = () => {
   const { t } = useTranslation();
   const navigation = useNavigation();
+  const dispatch = useDispatch();
+  const userStore = useSelector((state) => state.userStore);
 
   const [password, setPassword] = useState('');
   const [revealPassword, setRevealPassword] = useState(true);
@@ -181,7 +184,7 @@ const Login = () => {
         <View style={{ width: '100%' }}>
           <View style={LoginStyles.divider} />
         </View>
-        {!isPasswordSet && (
+        {!userStore.isLoginPasswordSet && (
           <View style={LoginStyles.flexLeft}>
             <Text style={LoginStyles.infoBox}>{t('login:attention')} </Text>
           </View>
@@ -230,7 +233,7 @@ const Login = () => {
           backgroundColor={ThemeColors.blue_dark}
           barStyle="light-content"
         />
-        {isPasswordSet ? renderExistingUser() : renderNewUser()}
+        {userStore.isLoginPasswordSet ? renderExistingUser() : renderNewUser()}
       </View>
     </View>
   );
