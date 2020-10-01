@@ -21,24 +21,6 @@ const store = createStore(rootReducer);
 
 const App = () => {
   return (
-    // <>
-    //   <StatusBar barStyle="dark-content" />
-    //   <SafeAreaView>
-    //     <ScrollView
-    //       contentInsetAdjustmentBehavior="automatic"
-    //       style={styles.scrollView}>
-    //       <View style={styles.body}>
-    //         <View style={styles.sectionContainer}>
-    //           <Text style={styles.sectionTitle}>ixoMobile app</Text>
-    //           <Text style={styles.sectionDescription}>
-    //             Edit <Text style={styles.highlight}>App.js</Text> to change this
-    //             screen.
-    //           </Text>
-    //         </View>
-    //       </View>
-    //     </ScrollView>
-    //   </SafeAreaView>
-    // </>
     <Root>
       <Provider store={store}>
         <MainNavigatorStack />

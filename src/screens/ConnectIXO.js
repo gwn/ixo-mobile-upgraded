@@ -74,12 +74,10 @@ const ConnectIXO = () => {
             text={t('connectIXO:registerButton')}
             onPress={() => navigation.navigate('Register')}
           />
-          {Platform.OS === 'android' ? (
-            <DarkButton
-              text={t('connectIXO:scanButton')}
-              onPress={() => handleOnScanNavigate()}
-            />
-          ) : null}
+          <DarkButton
+            text={t('connectIXO:scanButton')}
+            onPress={() => handleOnScanNavigate()}
+          />
           <TouchableOpacity onPress={() => navigation.navigate('Recover')}>
             <Text style={ConnectIXOStyles.recover}>
               {t('connectIXO:recover')}

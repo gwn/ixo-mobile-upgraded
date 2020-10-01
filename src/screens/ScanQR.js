@@ -6,6 +6,9 @@ import {
   StatusBar,
   TouchableOpacity,
 } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
+import { initIxo } from '../redux/ixo/actions';
+import { initUser } from '../redux/user/actions';
 import { Text, View } from 'native-base';
 import { RNCamera } from 'react-native-camera';
 import { useTranslation } from 'react-i18next';
@@ -92,9 +95,12 @@ const InfoBlocksServiceProvider = ({ qrCodeText, helpText }) => (
   </View>
 );
 
-const ScanQR = ({ user, ixo, onUserInit }) => {
+const ScanQR = ({ route }) => {
   const { t } = useTranslation();
   const navigation = useNavigation();
+  const dispatch = useDispatch();
+  const ixoStore = useSelector((state) => state.ixoStore);
+  const userStore = useSelector((state) => state.userStore);
 
   const [errors, setErrors] = useState(false);
   const [keysafePasswordError, setKeysafePasswordError] = useState('');
@@ -116,6 +122,7 @@ const ScanQR = ({ user, ixo, onUserInit }) => {
   const [userEmail, setUserEmail] = useState('');
 
   let _projectScan = true;
+  _projectScan = route.params.projectScan;
 
   const _handleBarCodeRead = (_payload) => {
     if (!modalVisible) {
@@ -132,7 +139,7 @@ const ScanQR = ({ user, ixo, onUserInit }) => {
         setPayload(null);
         setProjectDid(_projectDid);
 
-        ixo.project.getProjectByProjectDid(_projectDid).then((project) => {
+        ixoStore.project.getProjectByProjectDid(_projectDid).then((project) => {
           setProjectTitle(project.data.title);
           setServiceEndpoint(project.data.serviceEndpoint);
         });
@@ -166,7 +173,7 @@ const ScanQR = ({ user, ixo, onUserInit }) => {
         // AsyncStorage.setItem(UserStorageKeys.did, user.did);
         // AsyncStorage.setItem(UserStorageKeys.verifyKey, user.verifyKey);
 
-        onUserInit(user);
+        dispatch(initUser(user));
         resetStateVars();
         navigation.navigate('Login');
       } catch (exception) {
@@ -189,13 +196,13 @@ const ScanQR = ({ user, ixo, onUserInit }) => {
     try {
       const agentData = {
         email: userEmail,
-        name: user.name,
+        name: userStore.name,
         role: 'SA',
-        agentDid: user.did,
+        agentDid: userStore.did,
         projectDid: projectDid,
       };
       getSignature(agentData).then((signature) => {
-        ixo.agent
+        ixoStore.agent
           .createAgent(agentData, signature, serviceEndpoint)
           .then((res) => {
             if (res.error !== undefined) {
