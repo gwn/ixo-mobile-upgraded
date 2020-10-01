@@ -7,7 +7,6 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { initIxo } from '../redux/ixo/actions';
 import { initUser } from '../redux/user/actions';
 import { Text, View } from 'native-base';
 import { RNCamera } from 'react-native-camera';
