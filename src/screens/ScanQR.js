@@ -14,6 +14,7 @@ import { useTranslation } from 'react-i18next';
 import { CommonActions } from '@react-navigation/core';
 import { useNavigation } from '@react-navigation/native';
 import SInfo from 'react-native-sensitive-info';
+import AsyncStorage from '@react-native-community/async-storage';
 
 import {
   LocalStorageKeys,
@@ -161,16 +162,16 @@ const ScanQR = ({ route }) => {
 
         SInfo.setItem(SecureStorageKeys.encryptedMnemonic, payload, {});
 
-        // AsyncStorage.setItem(LocalStorageKeys.firstLaunch, 'true');
+        AsyncStorage.setItem(LocalStorageKeys.firstLaunch, 'true');
 
         const user = {
           did: 'did:sov:' + generateSovrinDID(mnemonicJson.mnemonic).did,
           name: mnemonicJson.name,
           verifyKey: generateSovrinDID(mnemonicJson.mnemonic).verifyKey,
         };
-        // AsyncStorage.setItem(UserStorageKeys.name, user.name);
-        // AsyncStorage.setItem(UserStorageKeys.did, user.did);
-        // AsyncStorage.setItem(UserStorageKeys.verifyKey, user.verifyKey);
+        AsyncStorage.setItem(UserStorageKeys.name, user.name);
+        AsyncStorage.setItem(UserStorageKeys.did, user.did);
+        AsyncStorage.setItem(UserStorageKeys.verifyKey, user.verifyKey);
 
         dispatch(initUser(user));
         resetStateVars();
@@ -427,7 +428,8 @@ const ScanQR = ({ route }) => {
         type={type}
         onBarCodeRead={_handleBarCodeRead}
         flashMode={RNCamera.Constants.FlashMode.on}
-        permissionDialogTitle={'Permission to use camera'}
+        captureAudio={false}
+        androidCameraPermissionOptions={'Permission to use camera'}
         permissionDialogMessage={
           'We need your permission to use your camera phone'
         }>
