@@ -63,7 +63,7 @@ const Projects = ({ screenProps }) => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const projectStore = useSelector((state) => state.projectsStore);
-  const dynamicsStore = useSelector((state) => state.dynamicsStore);
+  const online = useSelector((state) => state.dynamicsStore.online);
   const userStore = useSelector((state) => state.userStore);
   const claimsStore = useSelector((state) => state.claimsStore);
 
@@ -106,7 +106,7 @@ const Projects = ({ screenProps }) => {
   };
 
   const fetchImage = (project, localProjectState) => {
-    if (dynamicsStore.online && !localProjectState) {
+    if (online && !localProjectState) {
       // only fetch new images when online
       if (project.data.imageLink && project.data.imageLink !== '') {
         setLocalProjectImage(
@@ -388,7 +388,7 @@ const Projects = ({ screenProps }) => {
   };
 
   const renderConnectivity = () => {
-    if (dynamicsStore.online) {
+    if (online) {
       return null;
     }
     return <Banner text={t('dynamics:offlineMode')} />;

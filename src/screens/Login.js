@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
 import { Text, Toast } from 'native-base';
 import Video from 'react-native-video';
 import { useNavigation } from '@react-navigation/native';
@@ -18,7 +19,7 @@ import SInfo from 'react-native-sensitive-info';
 import { SecureStorageKeys } from '../models/phoneStorage';
 import { showToast, toastType } from '../utils/toasts';
 
-import { isPasswordSet, userSetPassword } from '../redux/user/actions';
+import { userSetPassword } from '../redux/user/actions';
 
 import CustomIcon from '../components/svg/CustomIcons';
 import InputField from '../components/InputField';
@@ -37,6 +38,10 @@ import IconFingerprint from '../../assets/iconFingerprint.png';
 const Login = () => {
   const { t } = useTranslation();
   const navigation = useNavigation();
+  const dispatch = useDispatch();
+  const isPasswordSet = useSelector(
+    (state) => state.userStore.isLoginPasswordSet,
+  );
 
   const [password, setPassword] = useState('');
   const [revealPassword, setRevealPassword] = useState(true);
@@ -109,7 +114,7 @@ const Login = () => {
     }
 
     SInfo.setItem(SecureStorageKeys.password, password, {});
-    userSetPassword();
+    dispatch(userSetPassword());
     const resetAction = CommonActions.reset({
       index: 0,
       routes: [{ name: 'Projects' }],

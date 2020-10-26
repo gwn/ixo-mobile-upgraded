@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { toggleConnection } from '../redux/dynamics/actions';
 import { Image, StatusBar, View } from 'react-native';
 import { Text } from 'native-base';
 import Video from 'react-native-video';
 import AsyncStorage from '@react-native-community/async-storage';
+import NetInfo from '@react-native-community/netinfo';
 import { CommonActions } from '@react-navigation/core';
 import { useNavigation } from '@react-navigation/native';
 import { LocalStorageKeys } from '../models/phoneStorage';
@@ -23,11 +26,13 @@ import makeAnImpact from '../../assets/ixoOnboarding1.mp4';
 const OnBoarding = () => {
   const { t } = useTranslation();
   const navigation = useNavigation();
+  const dispatch = useDispatch();
+
   const [showOnboarding, setShowOnboarding] = useState(false);
 
   const getData = async () => {
-    //fir debug
-    AsyncStorage.clear();
+    //for debug
+    //AsyncStorage.clear();
     try {
       const isFirstLaunch = await AsyncStorage.getItem(
         LocalStorageKeys.firstLaunch,
@@ -48,6 +53,13 @@ const OnBoarding = () => {
 
   useEffect(() => {
     getData();
+
+    const unsubscribe = NetInfo.addEventListener((state) => {
+      dispatch(toggleConnection(state.isConnected));
+    });
+    return () => {
+      unsubscribe();
+    };
   }, []);
 
   const renderStepOne = () => {
