@@ -36,6 +36,8 @@ import ContainerStyles from '../styles/Containers';
 
 import { AddingServiceProvider } from '../utils/scanQR';
 
+import { env } from '../config'
+
 import keysafelogo from '../../assets/keysafe-logo.png';
 import qr from '../../assets/qr.png';
 
@@ -99,8 +101,8 @@ const ScanQR = ({ route }) => {
   const { t } = useTranslation();
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const ixoStore = useSelector((state) => state.ixoStore);
-  const userStore = useSelector((state) => state.userStore);
+  const ixoStore = useSelector((state) => state.ixoStore.ixo);
+  const userStore = useSelector((state) => state.userStore.user);
 
   const [errors, setErrors] = useState(false);
   const [keysafePasswordError, setKeysafePasswordError] = useState('');
@@ -130,18 +132,16 @@ const ScanQR = ({ route }) => {
         setModalVisible(true);
         setPayload(_payload.data);
       } else if (_payload.data.includes('projects') && _projectScan) {
-        const _projectDid = _payload.data.substring(
-          _payload.data.length - 39,
-          _payload.data.length - 9,
-        );
+        const _projectDid =
+            _payload.data.match(/^https?:\/\/[^/]+\/projects\/([^/]+)/)[1]
 
         setModalVisible(true);
         setPayload(null);
         setProjectDid(_projectDid);
 
         ixoStore.project.getProjectByProjectDid(_projectDid).then((project) => {
-          setProjectTitle(project.data.title);
-          setServiceEndpoint(project.data.serviceEndpoint);
+          setProjectTitle(project.data.name);
+          setServiceEndpoint(project.data.serviceEndpoint || env.PDS_URL);
         });
       } else {
         setErrors(true);

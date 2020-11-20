@@ -22,4 +22,6 @@ if (__DEV__) {
   // env = dev_env;
 }
 
+env.PDS_URL = 'https://pds_pandora.ixo.world/'
+
 export { env };

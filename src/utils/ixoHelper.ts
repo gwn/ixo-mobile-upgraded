@@ -1,4 +1,5 @@
 import { getPublicStore, Store } from 'redux';
+import store from '../store'
 import { IProject } from '../models/project';
 import { updateProjects } from '../redux/projects/actions';
 import { showToast, toastType } from './toasts';
@@ -31,7 +32,7 @@ export default class IxoHelper {
   }
 
   constructor() {
-    this.publicStore = getPublicStore();
+    this.publicStore = store;
   }
 
   async updateMyProjects() {

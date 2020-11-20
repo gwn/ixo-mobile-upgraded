@@ -243,7 +243,7 @@ const Projects = ({ screenProps }) => {
                         { alignItems: 'flex-start' },
                       ]}>
                       <Text style={ProjectsStyles.projectTitle}>
-                        {project.data.title}
+                        {project.data.name}
                       </Text>
                       <Text style={ProjectsStyles.projectSuccessfulAmountText}>
                         {project.data.claimStats.currentSuccessful}
@@ -300,7 +300,7 @@ const Projects = ({ screenProps }) => {
         refreshControl={
           <RefreshControl
             refreshing={isRefreshing}
-            onRefresh={() => IxoHelper.updateMyProjects()}
+            onRefresh={() => new IxoHelper().updateMyProjects()}
           />
         }
         // @ts-ignore
@@ -346,42 +346,7 @@ const Projects = ({ screenProps }) => {
             backgroundColor={ThemeColors.blue_dark}
             barStyle="light-content"
           />
-          {isRefreshing ? (
-            <ActivityIndicator color={ThemeColors.white} />
-          ) : (
-            <View>
-              <View
-                style={{
-                  height: height * 0.4,
-                  flexDirection: 'row',
-                  justifyContent: 'center',
-                }}>
-                <View
-                  style={{ flexDirection: 'column', justifyContent: 'center' }}>
-                  <Image resizeMode={'stretch'} source={addProjects} />
-                </View>
-              </View>
-              <View style={{ paddingHorizontal: 30 }}>
-                <View style={[ProjectsStyles.flexLeft]}>
-                  <Text
-                    style={[
-                      ProjectsStyles.header,
-                      { color: ThemeColors.blue_lightest },
-                    ]}>
-                    {t('projects:addFirstProject')}
-                  </Text>
-                </View>
-                <View style={{ width: '100%' }}>
-                  <View style={ProjectsStyles.divider} />
-                </View>
-                <View style={ProjectsStyles.flexLeft}>
-                  <Text style={ProjectsStyles.infoBox}>
-                    {t('projects:visitIXO')}
-                  </Text>
-                </View>
-              </View>
-            </View>
-          )}
+          <Content>{renderProject()}</Content>
         </Container>
       </ImageBackground>
     );
@@ -406,7 +371,7 @@ const Projects = ({ screenProps }) => {
         'projectStore.projects.length: ',
         projectStore.projects.length,
       )}
-      {projectStore.projects.length > 0
+      {projectStore.projects.length === 0
         ? renderNoProjectsView()
         : renderProjectsView()}
       <Fab

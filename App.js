@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import 'react-native-gesture-handler';
 import { Root } from 'native-base';
 import {
@@ -9,17 +9,30 @@ import {
   Text,
   StatusBar,
 } from 'react-native';
-import { createStore } from 'redux';
 import { Provider } from 'react-redux';
-import rootReducer from './src/redux/reducers';
+import AsyncStorage from '@react-native-community/async-storage';
+import { initUser } from './src/redux/user/actions';
+import store from './src/store'
+import { UserStorageKeys } from './src/models/phoneStorage'
 import './i18n';
 
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import MainNavigatorStack from './src/Routes';
 
-const store = createStore(rootReducer);
-
 const App = () => {
+  useEffect(() => {
+    Promise.all(
+      ['name', 'did', 'verifyKey']
+        .map(userPropName =>
+            AsyncStorage.getItem(
+                UserStorageKeys[userPropName]))
+    )
+      .then(([name, did, verifyKey]) =>
+        store.dispatch(
+            initUser({name, did, verifyKey}))
+      )
+  }, [])
+
   return (
     <Root>
       <Provider store={store}>
