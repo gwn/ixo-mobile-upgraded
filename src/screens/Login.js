@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   ActivityIndicator,
   Alert,
@@ -10,13 +10,15 @@ import {
   View,
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
+import { initUser } from '../redux/user/actions';
 import { Text, Toast } from 'native-base';
+import AsyncStorage from '@react-native-community/async-storage';
 import Video from 'react-native-video';
 import { useNavigation } from '@react-navigation/native';
 import { CommonActions } from '@react-navigation/core';
 import { useTranslation } from 'react-i18next';
 import SInfo from 'react-native-sensitive-info';
-import { SecureStorageKeys } from '../models/phoneStorage';
+import { SecureStorageKeys, UserStorageKeys } from '../models/phoneStorage';
 import { showToast, toastType } from '../utils/toasts';
 
 import { userSetPassword } from '../redux/user/actions';
@@ -39,14 +41,42 @@ const Login = () => {
   const { t } = useTranslation();
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const isPasswordSet = useSelector(
-    (state) => state.userStore.isLoginPasswordSet,
-  );
+  const userStore = useSelector((state) => state.userStore);
 
   const [password, setPassword] = useState('');
   const [revealPassword, setRevealPassword] = useState(true);
   const [loading, setLoading] = useState(false);
   const [userName, setUserName] = useState('');
+
+  useEffect(() => {
+    console.log('userStore: ', userStore);
+    if (userStore.user === null) {
+      retrieveUserFromStorage();
+    } else {
+      setUserName(userStore.user.name);
+    }
+  }, []);
+
+  const retrieveUserFromStorage = async () => {
+    try {
+      const name = await AsyncStorage.getItem(UserStorageKeys.name);
+      const did = await AsyncStorage.getItem(UserStorageKeys.did);
+      const verifyKey = await AsyncStorage.getItem(UserStorageKeys.verifyKey);
+
+      console.log('data: ', `${name} ${did} ${verifyKey}`);
+      if (name && did && verifyKey) {
+        dispatch(
+          initUser({
+            name,
+            did,
+            verifyKey,
+          }),
+        );
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const scanFingerprint = async () => {};
 
@@ -117,7 +147,7 @@ const Login = () => {
     dispatch(userSetPassword());
     const resetAction = CommonActions.reset({
       index: 0,
-      routes: [{ name: 'Projects' }],
+      routes: [{ name: 'DrawlerStack' }],
     });
     navigation.dispatch(resetAction);
   };
@@ -186,7 +216,7 @@ const Login = () => {
         <View style={{ width: '100%' }}>
           <View style={LoginStyles.divider} />
         </View>
-        {!isPasswordSet && (
+        {!userStore.isLoginPasswordSet && (
           <View style={LoginStyles.flexLeft}>
             <Text style={LoginStyles.infoBox}>{t('login:attention')} </Text>
           </View>
@@ -235,7 +265,7 @@ const Login = () => {
           backgroundColor={ThemeColors.blue_dark}
           barStyle="light-content"
         />
-        {isPasswordSet ? renderExistingUser() : renderNewUser()}
+        {userStore.isLoginPasswordSet ? renderExistingUser() : renderNewUser()}
       </View>
     </View>
   );

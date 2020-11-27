@@ -1,0 +1,177 @@
+import { Platform, StyleSheet } from 'react-native';
+import { Fonts } from '../../rescources/Fonts';
+
+const styles = StyleSheet.create({
+  container: {
+    paddingTop: 20,
+    flex: 1,
+    backgroundColor: '#002334',
+  },
+  viewContainer: {
+    paddingTop: 10,
+    flex: 1,
+    justifyContent: 'flex-start',
+    marginHorizontal: '1%',
+  },
+  headerContainer: {
+    flexDirection: 'row',
+    paddingTop: '8%',
+    alignItems: 'center',
+  },
+  buttonContainer: {
+    width: 20,
+    height: 26,
+    marginLeft: '4%',
+    paddingTop: '4%',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  backButton: {
+    width: 9,
+    height: 15,
+    marginBottom: 14,
+  },
+  pageTitleContainer: {
+    flexDirection: 'row',
+    marginLeft: '28%',
+    paddingTop: 5,
+  },
+  pageTitle: {
+    fontFamily: Fonts.RobotoRegular,
+    fontWeight: 'bold',
+    fontSize: 14,
+    marginLeft: 5,
+    color: '#FFFFFF',
+  },
+  relayerContainer: {
+    flexDirection: 'row',
+    marginLeft: '7%',
+    marginTop: '9%',
+  },
+  roundLogo: {
+    width: 55,
+    height: 55,
+    alignContent: 'stretch',
+  },
+  relayerTextContainer: {
+    marginLeft: '4%',
+    justifyContent: 'space-around',
+  },
+  bigTitleText: {
+    fontFamily: Fonts.RobotoCondensedRegular,
+    fontSize: 29,
+    fontStyle: 'normal',
+    color: '#FFFFFF',
+  },
+  activeWrapper: {
+    backgroundColor: '#85AD5C',
+    borderRadius: 6,
+    height: 18,
+    width: 55,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  notActive: {
+    textAlign: 'center',
+    backgroundColor: 'grey',
+    borderRadius: 6,
+    height: 18,
+    width: 65,
+    paddingLeft: 1,
+    opacity: 0.8,
+  },
+  activeText: {
+    fontFamily: Fonts.RobotoRegular,
+    fontSize: 11,
+    fontWeight: 'bold',
+    color: '#FFFFFF',
+  },
+  myStakeContainer: {
+    backgroundColor: '#002D42',
+    borderWidth: Platform.OS == 'android' ? 1 : 0.5,
+    borderColor: '#03D0FB',
+    flexDirection: 'row',
+    marginTop: '10%',
+    marginHorizontal: '2%',
+    height: '22%',
+    justifyContent: 'space-between',
+  },
+  containerHeaderText: {
+    fontFamily: Fonts.RobotoRegular,
+    fontStyle: 'normal',
+    fontWeight: 'bold',
+    fontSize: 14,
+    color: '#FFFFFF',
+    marginBottom: 6,
+  },
+  namesContainer: {
+    marginTop: '3%',
+    marginLeft: '3%',
+  },
+  valuesContainer: {
+    marginTop: '3%',
+    marginRight: '4%',
+  },
+  containerText: {
+    marginLeft: 10,
+    marginTop: 8,
+    fontFamily: Fonts.RobotoRegular,
+    fontStyle: 'normal',
+    fontSize: 13,
+    color: '#5A879D',
+  },
+  detailsContainer: {
+    backgroundColor: '#002D42',
+    borderWidth: Platform.OS == 'android' ? 1 : 0.5,
+    borderColor: '#03D0FB',
+    flexDirection: 'row',
+    marginTop: '5%',
+    marginHorizontal: '2%',
+    height: '45%',
+    justifyContent: 'space-between',
+  },
+  detailNamesContainer: {
+    marginTop: '3%',
+    marginLeft: '3%',
+    justifyContent: 'space-evenly',
+  },
+  detailValuesContainer: {
+    marginTop: '3%',
+    marginRight: '4%',
+    alignItems: 'flex-end',
+    justifyContent: 'space-evenly',
+  },
+  detailsText: {
+    fontFamily: Fonts.RobotoRegular,
+    fontStyle: 'normal',
+    fontWeight: 'normal',
+    fontSize: 13,
+    color: '#FFFFFF',
+    marginBottom: 6,
+  },
+  detailsValues: {
+    fontFamily: Fonts.RobotoRegular,
+    fontStyle: 'normal',
+    fontWeight: 'normal',
+    fontSize: 13,
+    color: '#5A879D',
+    marginBottom: 6,
+    textAlign: 'right',
+  },
+  imageContainer: {
+    flexDirection: 'row',
+  },
+  world: {
+    height: 18,
+    width: 18,
+    marginLeft: 5,
+  },
+  eye: {
+    height: 12,
+    width: 18,
+    marginLeft: 5,
+    marginTop: 3,
+  },
+});
+
+export default styles;

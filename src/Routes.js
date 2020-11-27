@@ -20,6 +20,15 @@ import Claims from './screens/Claims';
 import ViewClaim from './screens/ViewClaim';
 import Help from './screens/Help';
 
+import Wallet from './screens/wallet/Wallet';
+import Modal from './components/Modal/Modal';
+import Assistant from './screens/assistant/Assistant';
+import Transactions from './screens/transactions/Transactions';
+import SendTransaction from './screens/sendTransaction/SendTransaction';
+import TransactionSubmit from './screens/transactionSubmit/TransactionSubmit';
+import Relayers from './screens/relayers/Relayers';
+import RelayersDetails from './screens/stakingDetails/RelayersDetails';
+
 const MainNavigator = createStackNavigator();
 
 function MainNavigatorStack() {
@@ -41,7 +50,7 @@ function MainNavigatorStack() {
 
 const AppNavigator = createStackNavigator();
 
-function appNavigatorStack() {
+function AppNavigatorStack() {
   return (
     <AppNavigator.Navigator initialRouteName="Projects">
       <AppNavigator.Screen name="Projects" component={Projects} />
@@ -68,9 +77,10 @@ const DrawerNavigator = createDrawerNavigator();
 
 function DrawerNavigatorStack() {
   return (
-    <DrawerNavigator.Navigator initialRouteName="Drawer" component={SideBar}>
-      <DrawerNavigator.Screen name="Drawer" component={appNavigatorStack} />
+    <DrawerNavigator.Navigator initialRouteName="Projects" component={SideBar}>
+      <DrawerNavigator.Screen name="Projects" component={AppNavigatorStack} />
       <DrawerNavigator.Screen name="Help" component={helpNavigatorStack} />
+      <DrawerNavigator.Screen name="Wallet" component={WalletsNavigatorStack} />
     </DrawerNavigator.Navigator>
   );
 }
@@ -112,7 +122,67 @@ function OnBoardingNavigatorStack() {
   );
 }
 
-export default function AppNavigatorStack() {
+const WalletsNavigator = createStackNavigator();
+
+function WalletsNavigatorStack() {
+  return (
+    <WalletsNavigator.Navigator
+      initialRouteName="Wallet"
+      mode="modal"
+      screenOptions={{
+        headerShown: false,
+      }}>
+      <WalletsNavigator.Screen name="Wallet" component={Wallet} />
+      <WalletsNavigator.Screen name="Assistant" component={Assistant} />
+      <WalletsNavigator.Screen name="Relayers" component={Relayers} />
+      <WalletsNavigator.Screen
+        name="RelayersDetails"
+        component={RelayersDetails}
+      />
+      <WalletsNavigator.Screen
+        name="SendTransaction"
+        component={SendTransaction}
+      />
+      <SwipeNavigator.Screen
+        name="TransactionSubmit"
+        component={TransactionSubmit}
+      />
+      <WalletsNavigator.Screen
+        name="Transactions"
+        component={SwipeNavigatorStack}
+      />
+      <WalletsNavigator.Screen
+        name="Modal"
+        options={{
+          animationEnabled: true,
+          cardStyle: {
+            backgroundColor: 'white',
+            opacity: 0.4,
+          },
+          cardOverlayEnabled: true,
+        }}
+        component={Modal}
+      />
+    </WalletsNavigator.Navigator>
+  );
+}
+
+const SwipeNavigator = createStackNavigator();
+
+function SwipeNavigatorStack() {
+  return (
+    <SwipeNavigator.Navigator
+      initialRouteName="Wallet"
+      screenOptions={{
+        headerShown: false,
+      }}>
+      <SwipeNavigator.Screen name="Wallet" component={Wallet} />
+      <SwipeNavigator.Screen name="Transactions" component={Transactions} />
+    </SwipeNavigator.Navigator>
+  );
+}
+
+export default function IxoAppNavigatorStack() {
   return (
     <NavigationContainer>
       <MainNavigatorStack />
