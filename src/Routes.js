@@ -20,6 +20,25 @@ import Claims from './screens/Claims';
 import ViewClaim from './screens/ViewClaim';
 import Help from './screens/Help';
 
+const MainNavigator = createStackNavigator();
+
+function MainNavigatorStack() {
+  return (
+    <MainNavigator.Navigator initialRouteName="LoginStack">
+      <MainNavigator.Screen
+        name="LoginStack"
+        component={OnBoardingNavigatorStack}
+        options={{ headerShown: false }}
+      />
+      <MainNavigator.Screen
+        name="DrawlerStack"
+        component={DrawerNavigatorStack}
+        options={{ headerShown: false }}
+      />
+    </MainNavigator.Navigator>
+  );
+}
+
 const AppNavigator = createStackNavigator();
 
 function appNavigatorStack() {
@@ -47,7 +66,7 @@ function helpNavigatorStack() {
 
 const DrawerNavigator = createDrawerNavigator();
 
-function drawerNavigatorStack() {
+function DrawerNavigatorStack() {
   return (
     <DrawerNavigator.Navigator initialRouteName="Drawer" component={SideBar}>
       <DrawerNavigator.Screen name="Drawer" component={appNavigatorStack} />
@@ -76,11 +95,11 @@ function OnBoardingNavigatorStack() {
         component={Login}
         options={{ headerShown: false }}
       />
-      <OnBoardingNavigator.Screen
+      {/* <OnBoardingNavigator.Screen
         name="Projects"
-        component={drawerNavigatorStack}
+        component={DrawerNavigatorStack}
         options={{ headerShown: false }}
-      />
+      /> */}
       <OnBoardingNavigator.Screen
         name="Loading"
         component={LoadingScreen}
@@ -93,10 +112,10 @@ function OnBoardingNavigatorStack() {
   );
 }
 
-export default function MainNavigatorStack() {
+export default function AppNavigatorStack() {
   return (
     <NavigationContainer>
-      <OnBoardingNavigatorStack />
+      <MainNavigatorStack />
     </NavigationContainer>
   );
 }

@@ -15,7 +15,7 @@ import rootReducer from './src/redux/reducers';
 import './i18n';
 
 import { Colors } from 'react-native/Libraries/NewAppScreen';
-import MainNavigatorStack from './src/Routes';
+import AppNavigatorStack from './src/Routes';
 
 const store = createStore(rootReducer);
 
@@ -23,7 +23,7 @@ const App = () => {
   return (
     <Root>
       <Provider store={store}>
-        <MainNavigatorStack />
+        <AppNavigatorStack />
       </Provider>
     </Root>
   );
