@@ -59,6 +59,7 @@ function AppNavigatorStack() {
       <AppNavigator.Screen name="ProjectDetails" component={ProjectDetails} />
       <AppNavigator.Screen name="Claims" component={Claims} />
       <AppNavigator.Screen name="ViewClaim" component={ViewClaim} />
+      <AppNavigator.Screen name="ScanQR" component={ScanQR} />
     </AppNavigator.Navigator>
   );
 }
