@@ -85,6 +85,9 @@ const Assistant: React.FC<AssistantPageProps> = ({ navigation }) => {
           message: 'Try to validate later please',
           fromAssistant: true,
         });
+    const  senderAccount = validationAPi.getAccount(transaction.events[0].attributes[1].value)
+    console.log("Sender Account", senderAccount);
+
   };
 
   return(
