@@ -2,6 +2,8 @@ import { StyleSheet } from 'react-native';
 import { Fonts } from '../../rescources/Fonts';
 
 const styles = StyleSheet.create({
+
+    avoidingContainer:{flex:1},
   container: {
     paddingTop: 65,
     flex: 1,
