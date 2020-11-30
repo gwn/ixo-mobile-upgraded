@@ -1,3 +1,4 @@
+import './shim.js';
 import React from 'react';
 import 'react-native-gesture-handler';
 import { Root } from 'native-base';
