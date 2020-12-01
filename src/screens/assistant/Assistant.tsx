@@ -6,6 +6,7 @@ import {
   ScrollView,
   StatusBar,
   Text,
+  KeyboardAvoidingView,
   TextInput,
   TouchableOpacity,
   View,
@@ -84,9 +85,16 @@ const Assistant: React.FC<AssistantPageProps> = ({ navigation }) => {
           message: 'Try to validate later please',
           fromAssistant: true,
         });
+    const  senderAccount = validationAPi.getAccount(transaction.events[0].attributes[1].value)
+    console.log("Sender Account", senderAccount);
+
   };
 
-  return (
+  return(
+  <KeyboardAvoidingView
+      behavior={Platform.OS == "ios" ? "padding" : "height"}
+      style={styles.avoidingContainer}
+  >
     <SafeAreaView style={styles.container}>
       <View style={styles.mainContainer}>
         <StatusBar
@@ -222,6 +230,7 @@ const Assistant: React.FC<AssistantPageProps> = ({ navigation }) => {
         </View>
       </View>
     </SafeAreaView>
+</KeyboardAvoidingView>
   );
 };
 
