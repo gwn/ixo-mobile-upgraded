@@ -14,6 +14,7 @@ import styles from './Wallet.styles';
 import WalletItem from './WalletItem';
 import * as Images from '../../../assets/images';
 import AssistantNavigator from '../../components/asssitantNavigator/AssistantNavigator';
+import {useDispatch, useSelector} from 'react-redux';
 import {useEffect} from "react";
 import ValidationPipe from "../api/cosmosPipe/ValidationPipe";
 
@@ -68,12 +69,13 @@ interface WalletProps {
 
 const Wallet: React.FC<WalletProps> = ({ amount, navigation }) => {
 
-  const validationPipe =new ValidationPipe();
+  const validationPipe = new ValidationPipe();
   const user = useSelector((state) => state.userStore.user);
 
-  useEffect(()=> accountData = validationPipe.getAccount(user.did));
+  let accountData;
+  useEffect(()=>{ accountData = validationPipe.getAccount(user.did),
+      console.log ( "ALL ACCOUNT DATA FROM WALLET", accountData);},[]);
 
-  console.log ( "ALL ACCOUNT DATA FROM WALLET", accountData);
 
   return (
     <SafeAreaView style={styles.container}>
