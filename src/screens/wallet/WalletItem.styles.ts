@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   chartWrapper: {
-    marginLeft: 120,
+    marginLeft: 55,
   },
   image: {
     width: 30,
