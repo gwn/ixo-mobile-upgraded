@@ -186,7 +186,7 @@ const Assistant: React.FC<AssistantPageProps> = ({ navigation }) => {
         <View style={styles.footer}>
           <TouchableOpacity
             style={styles.footerButton}
-            onPress={() => navigation.navigate('SendTransaction')}>
+            onPress={() => navigation.navigate('ScanQR')}>
             <Image source={Images.Options} style={styles.imageLeft} />
           </TouchableOpacity>
           <View style={styles.inputContainer}>
