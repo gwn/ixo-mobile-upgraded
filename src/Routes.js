@@ -158,8 +158,8 @@ function WalletsNavigatorStack() {
         options={{
           animationEnabled: true,
           cardStyle: {
-            backgroundColor: 'white',
-            opacity: 0.4,
+              backgroundColor: 'transparent',
+            opacity: 0.99,
           },
           cardOverlayEnabled: true,
         }}
