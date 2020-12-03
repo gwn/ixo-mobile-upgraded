@@ -43,6 +43,7 @@ const FakePortfolioData = [
     image: Images.Portfolio,
     itemCenteredTitle: 'Bitcoin',
     investmentName: 'BTC',
+    portfolio:true,
   },
   {
     id: '4',
@@ -50,6 +51,7 @@ const FakePortfolioData = [
     image: Images.Portfolio,
     itemCenteredTitle: 'Education Impact Bond ',
     investmentName: 'EDC',
+    portfolio:true,
   },
 ];
 const FakeStakingData = [
@@ -141,6 +143,7 @@ const Wallet: React.FC<WalletProps> = ({ amount, navigation }) => {
                     image={item.image}
                     itemCenteredTitle={item.itemCenteredTitle}
                     investmentName={item.investmentName}
+                    portfolio={item.portfolio}
                   />
                 )}
               />

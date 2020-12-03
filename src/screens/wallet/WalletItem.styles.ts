@@ -72,6 +72,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  portfolioBackground:{
+    width: 42,
+    height: 30,
+  },
   investmentName: {
     color: 'white',
     fontFamily: Fonts.RobotoCondensedRegular,
