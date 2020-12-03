@@ -139,7 +139,7 @@ const Assistant: React.FC<AssistantPageProps> = ({ navigation }) => {
                   locations={[0.2, 1.0]}
                   colors={
                     fromAssistant
-                      ? ['#F8FAFD40', '#fffffff5']
+                      ? ['#F8FAFD70', '#fffffff5']
                       : ['#10597Bf5', '#1B6E90f5']
                   } //<-- last 2 chars from color control the opacity
                   style={
@@ -186,7 +186,7 @@ const Assistant: React.FC<AssistantPageProps> = ({ navigation }) => {
         <View style={styles.footer}>
           <TouchableOpacity
             style={styles.footerButton}
-            onPress={() => navigation.navigate('SendTransaction')}>
+            onPress={() => navigation.navigate('ScanQR')}>
             <Image source={Images.Options} style={styles.imageLeft} />
           </TouchableOpacity>
           <View style={styles.inputContainer}>

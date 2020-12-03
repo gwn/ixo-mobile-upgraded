@@ -135,6 +135,7 @@ function WalletsNavigatorStack() {
       }}>
       <WalletsNavigator.Screen name="Wallet" component={Wallet} />
       <WalletsNavigator.Screen name="Assistant" component={Assistant} />
+      <WalletsNavigator.Screen name="ScanQR" component={ScanQR} />
       <WalletsNavigator.Screen name="Relayers" component={Relayers} />
       <WalletsNavigator.Screen
         name="RelayersDetails"
@@ -157,8 +158,8 @@ function WalletsNavigatorStack() {
         options={{
           animationEnabled: true,
           cardStyle: {
-            backgroundColor: 'white',
-            opacity: 0.4,
+              backgroundColor: 'transparent',
+            opacity: 0.99,
           },
           cardOverlayEnabled: true,
         }}

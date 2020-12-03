@@ -2,7 +2,6 @@ import { StyleSheet } from 'react-native';
 import { Fonts } from '../../rescources/Fonts';
 
 const styles = StyleSheet.create({
-
     avoidingContainer:{flex:1},
   container: {
     paddingTop: 65,
@@ -44,26 +43,28 @@ const styles = StyleSheet.create({
     shadowRadius: 3,
     elevation: 3,
   },
-  assistantText: {
-    fontFamily: Fonts.RobotoRegular,
-    fontWeight: 'normal',
-    fontSize: 16,
-    color: '#090C0E',
-    paddingRight: '3%',
-    paddingLeft: '8%',
-    paddingVertical: '4%',
-    maxWidth: '80%',
-  },
-  messageText: {
-    fontFamily: Fonts.RobotoRegular,
-    fontWeight: 'normal',
-    fontSize: 16,
-    color: 'white',
-    paddingRight: '3%',
-    paddingLeft: '8%',
-    paddingVertical: '4%',
-    maxWidth: '80%',
-  },
+    assistantText: {
+        textAlign:'left',
+        fontFamily: Fonts.RobotoRegular,
+        fontWeight: 'normal',
+        fontSize: 16,
+        color: '#090C0E',
+        paddingRight: '4%',
+        paddingLeft: '4%',
+        paddingVertical: '3%',
+        maxWidth: '80%',
+    },
+    messageText: {
+        textAlign:'right',
+        fontFamily: Fonts.RobotoRegular,
+        fontWeight: 'normal',
+        fontSize: 16,
+        color: 'white',
+        paddingRight: '4%',
+        paddingLeft: '4%',
+        paddingVertical: '3%',
+        maxWidth: '80%',
+    },
   buttonsContainer:{
   flexDirection:'row',
     width:'95%',

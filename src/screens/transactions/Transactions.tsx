@@ -109,6 +109,7 @@ const Transactions: React.FC<TransactionsProps> = ({
           image={Images.BuyArrow}
           title={'IXO 0.00021'}
           date={'Aug 12'}
+          onPress={() => navigation.navigate('Modal')}
         />
         <Text style={styles.transactionsTitle}>July</Text>
         <View style={styles.flatlistWrapper}>
@@ -119,7 +120,7 @@ const Transactions: React.FC<TransactionsProps> = ({
             renderItem={({ item }) => (
               <TransactionItem
                 title={item.title}
-                onPress={() => console.log('transaction item press')}
+                onPress={() => navigation.navigate('Modal')}
                 image={item.image}
                 date={item.date}
               />

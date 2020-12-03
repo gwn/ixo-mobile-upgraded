@@ -43,6 +43,7 @@ const FakePortfolioData = [
     image: Images.Portfolio,
     itemCenteredTitle: 'Bitcoin',
     investmentName: 'BTC',
+    portfolio:true,
   },
   {
     id: '4',
@@ -50,6 +51,7 @@ const FakePortfolioData = [
     image: Images.Portfolio,
     itemCenteredTitle: 'Education Impact Bond ',
     investmentName: 'EDC',
+    portfolio:true,
   },
 ];
 const FakeStakingData = [
@@ -73,8 +75,8 @@ const Wallet: React.FC<WalletProps> = ({ amount, navigation }) => {
   const user = useSelector((state) => state.userStore.user);
 
   let accountData;
-  useEffect(()=>{ accountData = validationPipe.getAccount(user.did),
-      console.log ( "ALL ACCOUNT DATA FROM WALLET", accountData);},[]);
+  useEffect(()=>{ accountData = validationPipe.getAccount( user.did),
+      accountData.then((res)=>res.json()).then((resp)=> console.log("DATA",resp ,"DATA COINS",resp.result.value.coins[0]));},[]);
 
 
   return (
@@ -141,6 +143,7 @@ const Wallet: React.FC<WalletProps> = ({ amount, navigation }) => {
                     image={item.image}
                     itemCenteredTitle={item.itemCenteredTitle}
                     investmentName={item.investmentName}
+                    portfolio={item.portfolio}
                   />
                 )}
               />
@@ -171,7 +174,7 @@ const Wallet: React.FC<WalletProps> = ({ amount, navigation }) => {
         </ScrollView>
         <AssistantNavigator
           // @ts-ignore
-          onLongPress={() => console.log('Long press')}
+          onLongPress={() => navigation.navigate('ScanQR')}
           onPress={() => navigation.navigate('Assistant')}
         />
       </View>
