@@ -135,6 +135,7 @@ function WalletsNavigatorStack() {
       }}>
       <WalletsNavigator.Screen name="Wallet" component={Wallet} />
       <WalletsNavigator.Screen name="Assistant" component={Assistant} />
+      <WalletsNavigator.Screen name="ScanQR" component={ScanQR} />
       <WalletsNavigator.Screen name="Relayers" component={Relayers} />
       <WalletsNavigator.Screen
         name="RelayersDetails"
