@@ -54,6 +54,7 @@ const Assistant: React.FC<AssistantPageProps> = ({ navigation }) => {
   const myMessageInput = useRef(null);
   const [transactionHash, setTransactionHash] = useState('');
   const scrollViewRef = useRef();
+  const [counter, setCounter]=useState(0);
 
   const sendTestTransaction = async () => {
     let response = await cosmosAPi.sendMessage();
@@ -217,6 +218,7 @@ const Assistant: React.FC<AssistantPageProps> = ({ navigation }) => {
                   );
 
                   myMessageInput.current.clear();
+                  setCounter(counter+1);
                 }}
                 style={styles.messageButton}>
                 <ImageBackground source={Images.SendMsg} style={styles.sendMsg}>
