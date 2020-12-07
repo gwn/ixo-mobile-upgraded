@@ -183,6 +183,7 @@ const Assistant: React.FC<AssistantPageProps> = ({ navigation }) => {
                             <TouchableOpacity key={index}
                                               onPress={async () => {
                                                 console.log("RASA payload", payload);
+                                                setBotThinking(true)
                                                 let resp = await rasaAPI.sendMessage(payload);
                                                 console.log(" resp from rasa", resp);
                                                 setBotThinking(false)
@@ -192,6 +193,7 @@ const Assistant: React.FC<AssistantPageProps> = ({ navigation }) => {
                                                       fromAssistant: true,
                                                       buttons:buttons,
                                                     }) )
+                                                setCounter(counter+1);
                                               }}
                                               style={styles.assistantButton}>
                               <Text style={styles.assistantButtonText}>{title}</Text>
