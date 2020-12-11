@@ -1,10 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import {
-  Image,
-  TouchableOpacity,
-  AsyncStorage,
-  Dimensions,
-} from 'react-native';
+import { Image, TouchableOpacity, Dimensions } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import { View, Text, Container } from 'native-base';
 import { useNavigation } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';

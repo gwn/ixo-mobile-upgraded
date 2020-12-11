@@ -37,7 +37,14 @@ For Android platform use next command
 ```sh
 npx react-native run-android
 ```
+# IMPORTANT for mobile-wallet part of app
+#Delete flipper!
+Delete flipper in both projects
 
+Add Crypto RN to node modules manually and rename it to  Crypto
+
+#Don`t forget to import ./shim.js to the root file in the project 
+ALso just in case import  ./shim.js to the cosmos js file just in case
 ### Production
 
 TODO:
