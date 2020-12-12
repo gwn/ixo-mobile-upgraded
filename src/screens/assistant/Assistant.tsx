@@ -176,6 +176,15 @@ const Assistant: React.FC<AssistantPageProps> = ({ navigation }) => {
                             }>
                           {message}
                         </Text>
+
+                        {/*TODO Add here QR-code with custom payload (address)*/}
+
+                        {custom? <Text
+                            style={
+                              fromAssistant ? styles.assistantText : styles.messageText
+                            }>
+                          `Custom data - amount:{custom.amount} denom: {custom.denom} to_address: {custom.to_address}`
+                        </Text>:<></>}
                       </LinearGradient>
                       <View style={styles.buttonsContainer}>
                         {buttons ? buttons.map(({ title, type ,payload}, index) =>
@@ -184,7 +193,7 @@ const Assistant: React.FC<AssistantPageProps> = ({ navigation }) => {
                                                 console.log("RASA payload", payload);
                                                 setBotThinking(true)
                                                 let resp = await rasaAPI.sendMessage(payload);
-                                                console.log(" resp from rasa", resp);
+                                                console.log(" resp from rasa custom", resp[0].custom);
                                                 setBotThinking(false)
                                                 resp.map(({text, buttons, custom,action})=>
                                                     messagesChat.push({
@@ -246,6 +255,7 @@ const Assistant: React.FC<AssistantPageProps> = ({ navigation }) => {
                           setBotThinking(false)
                           setInputValue('')
                           console.log(" resp from rasa", resp);
+                          console.log(" resp from rasa custom", resp[0].custom);
 
                           resp.map(({text, buttons,custom,action})=>
                               messagesChat.push({
