@@ -32,6 +32,8 @@ interface AssistantChatMessage {
   message: string;
   fromAssistant: boolean;
   buttons?:Button[];
+  custom?:any;
+  action?:any;
 }
 
 interface AssistantPageProps {
@@ -53,14 +55,11 @@ interface TransactionAnimationProps {
   style: any;
 }
 
-class TransactionAnimationProps {
-}
 
-const BotThinkingAnimation: React.FC<TransactionAnimationProps> = ({
-                                                                     style,}) => {
+const BotThinkingAnimation: React.FC<TransactionAnimationProps> = ({style}) => {
   return (
       <LottieView
-          source={require('../../../assets/lottieAnimations/10357-chat-typing-indicator.json')}
+          source={require('../../assets/lottieAnimations/10357-chat-typing-indicator.json')}
           autoPlay
           loop
           speed={1}
@@ -155,7 +154,7 @@ const Assistant: React.FC<AssistantPageProps> = ({ navigation }) => {
                 <Text style={styles.assistantButtonText}>Validate Transaction</Text>
               </TouchableOpacity>
               <View style={styles.viewContainer}>
-                {messagesChat.map(({ message, fromAssistant ,buttons}, index) => (
+                {messagesChat.map(({ message, fromAssistant ,buttons,custom,action}, index) => (
                     <View style={styles.shadowView} key={index}>
                       <LinearGradient
                           start={{ x: 0.0, y: 0.0 }}
@@ -187,11 +186,13 @@ const Assistant: React.FC<AssistantPageProps> = ({ navigation }) => {
                                                 let resp = await rasaAPI.sendMessage(payload);
                                                 console.log(" resp from rasa", resp);
                                                 setBotThinking(false)
-                                                resp.map(({text, buttons})=>
+                                                resp.map(({text, buttons, custom,action})=>
                                                     messagesChat.push({
                                                       message:text,
                                                       fromAssistant: true,
                                                       buttons:buttons,
+                                                      custom:custom,
+                                                      action:action,
                                                     }) )
                                                 setCounter(counter+1);
                                               }}
@@ -246,11 +247,13 @@ const Assistant: React.FC<AssistantPageProps> = ({ navigation }) => {
                           setInputValue('')
                           console.log(" resp from rasa", resp);
 
-                          resp.map(({text, buttons})=>
+                          resp.map(({text, buttons,custom,action})=>
                               messagesChat.push({
                                 message:text,
                                 fromAssistant: true,
                                 buttons:buttons,
+                                custom:custom,
+                                action:action,
                               }) )
                           setCounter(counter+1);
                         }}
