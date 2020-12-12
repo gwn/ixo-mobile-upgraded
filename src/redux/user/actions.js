@@ -1,4 +1,5 @@
 export const USER_INIT = 'USER_INIT';
+export const USER_SET_WALLET_ACCOUNT = 'USER_SET_WALLET_ACCOUNT';
 export const USER_FIRST_CLAIM = 'USER_FIRST_CLAIM';
 export const USER_FIRST_LOGIN_CREATE_PASSWORD =
   'USER_FIRST_LOGIN_CREATE_PASSWORD';
@@ -10,6 +11,13 @@ export const initUser = (user) => {
     payload: user,
   };
 };
+
+export const userSetWalletAccount =(account)=>{
+  return {
+    type: USER_SET_WALLET_ACCOUNT,
+    payload: account,
+  };
+}
 
 export const userFirstClaim = () => {
   return {
@@ -24,6 +32,8 @@ export const userSetPassword = () => {
     payload: true,
   };
 };
+
+
 
 export const clearUser = () => {
   return {
