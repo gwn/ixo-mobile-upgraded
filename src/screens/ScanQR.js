@@ -29,6 +29,8 @@ import validator from 'validator';
 import GenericModal from '../components/GenericModal';
 import { showToast, toastType } from '../utils/toasts';
 
+import wc from '../utils/walletconnect'
+
 import ModalStyle from '../styles/Modal';
 import ScanQRStyles from '../styles/ScanQR';
 import { ThemeColors } from '../styles/Colors';
@@ -101,6 +103,7 @@ const ScanQR = ({ route }) => {
   const dispatch = useDispatch();
   const ixoStore = useSelector((state) => state.ixoStore);
   const userStore = useSelector((state) => state.userStore);
+  const wcStore = useSelector((state) => state.wcStore);
 
   const [errors, setErrors] = useState(false);
   const [keysafePasswordError, setKeysafePasswordError] = useState('');
@@ -120,11 +123,14 @@ const ScanQR = ({ route }) => {
   );
   const [type, setType] = useState(RNCamera.Constants.Type.back);
   const [userEmail, setUserEmail] = useState('');
+  const [wcState, setWcState] = useState('connecting')
+  const [wcSessionInfo, setWcSessionInfo] = useState()
 
   let _projectScan = true;
   _projectScan = route.params.projectScan;
+  let _walletConnect = route.params.walletConnect;
 
-  const _handleBarCodeRead = (_payload) => {
+  const _handleBarCodeRead = async (_payload) => {
     if (!modalVisible) {
       if (validator.isBase64(_payload.data) && !_projectScan) {
         setModalVisible(true);
@@ -143,6 +149,19 @@ const ScanQR = ({ route }) => {
           setProjectTitle(project.data.title);
           setServiceEndpoint(project.data.serviceEndpoint);
         });
+      } else if (_walletConnect) {
+        setWcState('connecting');
+        setModalVisible(true);
+
+        try {
+          const wcSessionInfo = await wc.init({ uri: _payload.data });
+
+          setWcSessionInfo(wcSessionInfo);
+          setWcState('awaitingSessionApproval');
+
+        } catch (e) {
+          setErrors(true);
+        }
       } else {
         setErrors(true);
         setModalVisible(true);
@@ -255,6 +274,13 @@ const ScanQR = ({ route }) => {
         <InfoBlocksServiceProvider
           helpText={t('scanQR:serviceProviderHelp')}
           qrCodeText={t('scanQR:serviceProviderScan')}
+        />
+      );
+    } else if (_walletConnect) {
+      return (
+        <InfoBlocksServiceProvider
+          helpText={t('scanQR:walletConnectTitle')}
+          qrCodeText={t('scanQR:walletConnectInstruction')}
         />
       );
     } else {
@@ -413,6 +439,70 @@ const ScanQR = ({ route }) => {
     );
   };
 
+  const renderWalletConnectScanned = () => {
+    if (errors) {
+      return renderErrorScanned();
+    }
+
+    switch (wcState) {
+      case 'connecting':
+        return (
+          <GenericModal
+            headingTextStyle={{ color: ThemeColors.white }}
+            heading={'Please wait'}
+            headingImage={
+              <Image
+                resizeMode={'contain'}
+                style={{ width: width * 0.3, height: width * 0.3 }}
+                source={walletConnectImg}
+              />
+            }
+            onClose={() => resetStateVars()}
+            onPressButton={() => resetStateVars()}
+            paragraph={'WalletConnect connection is in progress.'}
+            loading={loading}
+            buttonText='Cancel'
+          />
+        );
+      case 'awaitingSessionApproval':
+        return (
+          <GenericModal
+            headingImage={
+              <Image
+                resizeMode={'contain'}
+                style={{ width: width * 0.3, height: width * 0.3 }}
+                source={walletConnectImg}
+              />
+            }
+            onPressButton={() => {
+              wc.approveSession({
+                chainId: 1,
+
+                accounts: [{
+                  name: userStore.name,
+                  didDoc: {
+                    did: userStore.did,
+                    pubKey: userStore.verifyKey,
+                  },
+                }],
+              })
+
+              navigateToProjects()
+            }}
+            onPressSecondaryButton={() => {
+              wc.rejectSession()
+              navigateToProjects()
+            }}
+            onClose={() => resetStateVars()}
+            paragraph={`Connect to the dapp "${wcSessionInfo.peerMeta.name}" ?`}
+            loading={loading}
+            buttonText={'Connect'}
+            secondaryButtonText={'Cancel'}
+          />
+        );
+    }
+  };
+
   return (
     <View style={[ScanQRStyles.wrapper]}>
       <StatusBar barStyle="light-content" />
@@ -421,7 +511,9 @@ const ScanQR = ({ route }) => {
         animationType="slide"
         transparent={true}
         visible={modalVisible}>
-        {_projectScan ? renderProjectScanned() : renderKeySafeScannedModal()}
+        {   _projectScan ? renderProjectScanned()
+        : _walletConnect ? renderWalletConnectScanned()
+                         : renderKeySafeScannedModal()}
       </Modal>
       <RNCamera
         style={{ flex: 1 }}

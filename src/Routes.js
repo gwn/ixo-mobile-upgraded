@@ -29,11 +29,16 @@ import TransactionSubmit from './screens/transactionSubmit/TransactionSubmit';
 import Relayers from './screens/relayers/Relayers';
 import RelayersDetails from './screens/stakingDetails/RelayersDetails';
 
+import WalletConnectQuery from './screens/WalletConnectQuery';
+import WalletConnectInfo from './screens/WalletConnectInfo';
+
+import { navigationRef } from './navigation'
+
 const MainNavigator = createStackNavigator();
 
 function MainNavigatorStack() {
   return (
-    <MainNavigator.Navigator initialRouteName="LoginStack">
+    <MainNavigator.Navigator initialRouteName="LoginStack" mode="modal">
       <MainNavigator.Screen
         name="LoginStack"
         component={OnBoardingNavigatorStack}
@@ -43,6 +48,14 @@ function MainNavigatorStack() {
         name="DrawlerStack"
         component={DrawerNavigatorStack}
         options={{ headerShown: false }}
+      />
+      <MainNavigator.Screen
+        name="WalletConnectInfo"
+        component={WalletConnectInfo}
+      />
+      <MainNavigator.Screen
+        name="WalletConnectQuery"
+        component={WalletConnectQuery}
       />
     </MainNavigator.Navigator>
   );
@@ -186,7 +199,7 @@ function SwipeNavigatorStack() {
 
 export default function IxoAppNavigatorStack() {
   return (
-    <NavigationContainer>
+    <NavigationContainer ref={navigationRef}>
       <MainNavigatorStack />
     </NavigationContainer>
   );

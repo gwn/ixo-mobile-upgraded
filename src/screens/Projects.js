@@ -54,6 +54,8 @@ import ProjectsStyles from '../styles/Projects';
 import addProjects from '../../assets/project-visual.png';
 import background from '../../assets/background_2.png';
 import qr from '../../assets/qr.png';
+import walletConnectImg from '../../assets/walletconnect.png';
+import walletConnectWhiteImg from '../../assets/walletconnect.white.png';
 import placeholder from '../../assets/ixo-placeholder.jpg';
 
 const { width, height } = Dimensions.get('window');
@@ -66,6 +68,7 @@ const Projects = ({ screenProps }) => {
   const online = useSelector((state) => state.dynamicsStore.online);
   const userStore = useSelector((state) => state.userStore);
   const claimsStore = useSelector((state) => state.claimsStore);
+  const wcStore = useSelector((state) => state.wcStore);
 
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -418,6 +421,23 @@ const Projects = ({ screenProps }) => {
           resizeMode={'contain'}
           style={{ width: width * 0.08, height: width * 0.08 }}
           source={qr}
+        />
+      </Fab>
+      <Fab
+        direction="up"
+        style={{
+          backgroundColor: ThemeColors[wcStore.connected ? 'orange' : 'white'],
+        }}
+        position="bottomLeft"
+        onPress={() =>
+          wcStore.connected
+            ? navigation.navigate('WalletConnectInfo')
+            : navigation.navigate('ScanQR', { walletConnect: true })
+        }>
+        <Image
+          resizeMode={'contain'}
+          style={{ width: width * 0.13, height: width * 0.13 }}
+          source={ wcStore.connected ? walletConnectWhiteImg : walletConnectImg }
         />
       </Fab>
     </Drawer>
