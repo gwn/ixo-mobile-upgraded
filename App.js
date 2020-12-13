@@ -1,3 +1,5 @@
+import 'node-libs-react-native/globals';
+
 import React, { useEffect } from 'react';
 import 'react-native-gesture-handler';
 import { Root } from 'native-base';

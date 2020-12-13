@@ -8,6 +8,8 @@ target 'ixoMobile2' do
 
   use_react_native!(:path => config["reactNativePath"])
 
+  pod 'react-native-randombytes', :path => '../node_modules/react-native-randombytes'
+
   target 'ixoMobile2Tests' do
     inherit! :complete
     # Pods for testing
