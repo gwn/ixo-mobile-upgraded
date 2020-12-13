@@ -26,7 +26,9 @@ interface ParentProps {
   inputFieldOptions?: InputFieldOptions;
   loading: boolean;
   onPressButton?: Function;
+  onPressSecondaryButton?: Function;
   buttonText: string;
+  secondaryButtonText?: string;
   headingImage?: JSX.Element;
   onPressInfo?: Function;
   infoText?: string;
@@ -135,13 +137,19 @@ export default class CustomModal extends React.Component<Props, State> {
               {this.renderInputFields()}
               {this.props.loading ? (
                 <Spinner color={ThemeColors.white} />
-              ) : (
+              ) : (<>
                 <LightButton
                   propStyles={{ marginTop: 40 }}
                   onPress={() => this.props.onPressButton()}
                   text={this.props.buttonText}
                 />
-              )}
+                {this.props.secondaryButtonText &&
+                  <LightButton
+                    propStyles={{ marginTop: 10 }}
+                    onPress={() => this.props.onPressSecondaryButton()}
+                    text={this.props.secondaryButtonText}
+                  />}
+              </>)}
               <TouchableOpacity onPress={() => this.props.onPressInfo()}>
                 <Text style={ModalStyle.infoText}>{this.props.infoText}</Text>
               </TouchableOpacity>

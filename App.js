@@ -15,6 +15,7 @@ import { Provider } from 'react-redux';
 import AsyncStorage from '@react-native-community/async-storage';
 import { initUser } from './src/redux/user/actions';
 import store from './src/store'
+import wc from './src/walletconnect'
 import { UserStorageKeys } from './src/models/phoneStorage'
 import './i18n';
 
@@ -33,6 +34,18 @@ const App = () => {
         store.dispatch(
             initUser({name, did, verifyKey}))
       )
+
+    AsyncStorage.getItem('walletConnectSession')
+      .then(wcSession => {
+        if (wcSession) {
+          const wcSessionParsed = JSON.parse(wcSession)
+
+          console.log('WalletConnect: Found session:', wcSessionParsed)
+
+          wc.init({ session: wcSessionParsed })
+        }
+      })
+      .catch(console.error)
   }, [])
 
   return (

@@ -3,7 +3,7 @@ let env = {};
 if (Platform.OS === 'android') {
   env = {
     REACT_APP_BLOCKCHAIN_IP: 'https://androidblockchainmobile.ixo.world',
-    REACT_APP_BLOCK_SYNC_URL: 'https://block_sync_pandora.ixo.world',
+    REACT_APP_BLOCK_SYNC_URL: 'http://192.168.1.38:1234',
   };
 } else {
   env = {
@@ -22,6 +22,8 @@ if (__DEV__) {
   // env = dev_env;
 }
 
-env.PDS_URL = 'https://pds_pandora.ixo.world/'
+env.PDS_URL = 'http://192.168.1.38:2345/'
+
+env.WALLETCONNECT_BRIDGE = 'http://192.168.1.38:5001'
 
 export { env };

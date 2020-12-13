@@ -3,6 +3,8 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
+import { navigationRef } from './navigation'
+
 import ConnectIXO from './screens/ConnectIXO';
 import LoadingScreen from './screens/Loading';
 import OnBoarding from './screens/Onboarding';
@@ -19,6 +21,9 @@ import ProjectDetails from './screens/ProjectDetails';
 import Claims from './screens/Claims';
 import ViewClaim from './screens/ViewClaim';
 import Help from './screens/Help';
+
+import WalletConnectQuery from './screens/WalletConnectQuery';
+import WalletConnectInfo from './screens/WalletConnectInfo';
 
 const AppNavigator = createStackNavigator();
 
@@ -93,10 +98,34 @@ function OnBoardingNavigatorStack() {
   );
 }
 
+const RootNavigator = createStackNavigator();
+
+function RootNavigatorStack() {
+  return (
+    <RootNavigator.Navigator mode="modal">
+      <RootNavigator.Screen
+        name="OnBoarding"
+        component={OnBoardingNavigatorStack}
+        options={{ headerShown: false }}
+      />
+
+      <RootNavigator.Screen
+        name="WalletConnectInfo"
+        component={WalletConnectInfo}
+      />
+
+      <RootNavigator.Screen
+        name="WalletConnectQuery"
+        component={WalletConnectQuery}
+      />
+    </RootNavigator.Navigator>
+  );
+}
+
 export default function MainNavigatorStack() {
   return (
-    <NavigationContainer>
-      <OnBoardingNavigatorStack />
+    <NavigationContainer ref={navigationRef}>
+      <RootNavigatorStack />
     </NavigationContainer>
   );
 }
