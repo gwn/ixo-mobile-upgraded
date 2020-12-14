@@ -17,6 +17,7 @@
 		2DCD954D1E0B4F2C00145EB5 /* ixoMobile2Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* ixoMobile2Tests.m */; };
 		4C9CBA08BC5745749C64E610 /* Roboto.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 61BF4B41170C4ECE9388B3A2 /* Roboto.ttf */; };
 		5144A89C252C40A000152491 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5144A89B252C40A000152491 /* GoogleService-Info.plist */; };
+		5169FDBB2587BE0700893181 /* icomoon.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5169FDBA2587BE0700893181 /* icomoon.ttf */; };
 		519F2C322507CF04000933EF /* RobotoCondensed-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 519F2C312507CF04000933EF /* RobotoCondensed-Regular.ttf */; };
 		51FDCD552576F10E00B625CE /* Fontisto.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 51FDCD452576F10D00B625CE /* Fontisto.ttf */; };
 		51FDCD562576F10E00B625CE /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 51FDCD462576F10D00B625CE /* Octicons.ttf */; };
@@ -79,6 +80,7 @@
 		4D5EAE5749DEB6CE05425813 /* Pods-ixoMobile2-ixoMobile2Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ixoMobile2-ixoMobile2Tests.release.xcconfig"; path = "Target Support Files/Pods-ixoMobile2-ixoMobile2Tests/Pods-ixoMobile2-ixoMobile2Tests.release.xcconfig"; sourceTree = "<group>"; };
 		4E211C518448D2586F6DEF2F /* Pods-ixoMobile2-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ixoMobile2-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-ixoMobile2-tvOSTests/Pods-ixoMobile2-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
 		5144A89B252C40A000152491 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "ixoMobile2/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		5169FDBA2587BE0700893181 /* icomoon.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = icomoon.ttf; sourceTree = "<group>"; };
 		519F2C312507CF04000933EF /* RobotoCondensed-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "RobotoCondensed-Regular.ttf"; path = "../assets/fonts/RobotoCondensed-Regular.ttf"; sourceTree = "<group>"; };
 		51FDCD452576F10D00B625CE /* Fontisto.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Fontisto.ttf; sourceTree = "<group>"; };
 		51FDCD462576F10D00B625CE /* Octicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Octicons.ttf; sourceTree = "<group>"; };
@@ -194,6 +196,7 @@
 		51FDCD442576F10D00B625CE /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
+				5169FDBA2587BE0700893181 /* icomoon.ttf */,
 				51FDCD452576F10D00B625CE /* Fontisto.ttf */,
 				51FDCD462576F10D00B625CE /* Octicons.ttf */,
 				51FDCD472576F10D00B625CE /* Feather.ttf */,
@@ -444,6 +447,7 @@
 				51FDCD592576F10E00B625CE /* FontAwesome5_Brands.ttf in Resources */,
 				51FDCD572576F10E00B625CE /* Feather.ttf in Resources */,
 				51FDCD5E2576F10E00B625CE /* FontAwesome5_Solid.ttf in Resources */,
+				5169FDBB2587BE0700893181 /* icomoon.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
