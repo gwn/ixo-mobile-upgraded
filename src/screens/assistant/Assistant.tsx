@@ -73,17 +73,10 @@ const BotThinkingAnimation: React.FC<TransactionAnimationProps> = ({style}) => {
 
 
 
-
-
-
-
 //TODO store chats in redux
 
 
 const Assistant: React.FC<AssistantPageProps> = ({ navigation }) => {
-
-
-
 
 
 
@@ -108,9 +101,13 @@ const Assistant: React.FC<AssistantPageProps> = ({ navigation }) => {
 
   console.log("Mnemonic @@@", mnemonic);
 
-  const  cosmosAddres = cosmosAPi.getAddress(mnemonic);
+  const  [cosmosAddress,setCosmosAddress] = useState('')
 
-  console.log("ADDRESS!!! IXO!!!", cosmosAddres);
+ let accountAddress = cosmosAPi.getAddress(mnemonic);
+    setCosmosAddress(accountAddress);
+
+  console.log("ADDRESS!!! IXO!!!", cosmosAddress);
+
 
 
   const sendTestTransaction = async () =>{

@@ -10,11 +10,13 @@ export default class CosmosPipe {
         'https://ixo-testnet-validator-mt.simply-vc.com.mt/api',
         chainId,
     );
+    ixo.setBech32MainPrefix('ixo');
+    ixo.setPath("m/44'/118'/0'/0/0");
    return ixo.getAddress(mnemonic);
   }
 
 
-  sendMessage = ( mnemonic ,receiverAddress) => {
+  sendMessage = (mnemonic ,receiverAddress) => {
     // const mnemonic =
     //   'oven fade spider sketch episode under glory flee summer kitchen stage ride window polar farm large monkey tortoise assault jar swift believe response degree';
     const chainId = 'pandora-1';
@@ -25,9 +27,6 @@ export default class CosmosPipe {
     ixo.setBech32MainPrefix('ixo');
     ixo.setPath("m/44'/118'/0'/0/0");
     const address = ixo.getAddress(mnemonic);
-    console.log('Address', address);
-
-    console.log('ADDRESS RECEIVER',receiverAddress)
     const ecpairPriv = ixo.getECPairPriv(mnemonic);
 
     return ixo.getAccounts(address).then((data) => {

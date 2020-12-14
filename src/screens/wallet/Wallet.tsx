@@ -19,6 +19,7 @@ import {useEffect,useState} from "react";
 import ValidationPipe from "../api/cosmosPipe/ValidationPipe";
 import {userSetWalletAccount} from'../../redux/user/actions';
 import {CosmosAccount, CosmosAccountResponse} from "../../models/CosmosResponses";
+import CosmosPipe from "../api/cosmosPipe/CosmosPipe";
 
 const FakeData = [
   {
@@ -75,15 +76,28 @@ const Wallet: React.FC<WalletProps> = ({ amount, navigation }) => {
 
   const validationPipe = new ValidationPipe();
 
+  const cosmosAPi =new CosmosPipe();
 
   const user = useSelector((state) => state.userStore.user);
+
+  const mnemonic = useSelector((state) => state.userStore.user.mnemonic);
+  console.log("Mnemonic @@@", mnemonic);
+
+  const  [cosmosAddress,setCosmosAddress] = useState('')
+
 
   const dispatch = useDispatch();
 
   let [userAccount,setAccount]=useState<CosmosAccount>(null)
 
-  useEffect(()=>{validationPipe.getAccount('ixo1z7vwqeku3sz34sd8eq4ppg9stkv8ugu959jy26').then((res) => res.json()).then((resp) => setAccount(resp.result))},[]);
+  useEffect(()=>{
+     setCosmosAddress(cosmosAPi.getAddress(mnemonic));
+    validationPipe.getAccount('ixo1z7vwqeku3sz34sd8eq4ppg9stkv8ugu959jy26').then((res) => res.json()).then((resp) => setAccount(resp.result));},[]);
   dispatch(userSetWalletAccount(userAccount));
+
+ console.log("COSMOS ADDRESSS FROM WALLET", cosmosAddress);
+
+  // 'ixo1z7vwqeku3sz34sd8eq4ppg9stkv8ugu959jy26'
 
   return (
     <SafeAreaView style={styles.container}>
