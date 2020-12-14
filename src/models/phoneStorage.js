@@ -8,6 +8,7 @@ export const LocalStorageKeys = {
 export const UserStorageKeys = {
   name: 'name',
   did: 'did',
+  mnemonic: 'mnemonic',
   verifyKey: 'verifyKey',
 };
 

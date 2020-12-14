@@ -161,6 +161,8 @@ const ScanQR = ({ route }) => {
       try {
         const mnemonicJson = Decrypt(payload, password);
 
+
+
         SInfo.setItem(SecureStorageKeys.encryptedMnemonic, payload, {});
 
         AsyncStorage.setItem(LocalStorageKeys.firstLaunch, 'true');
@@ -169,10 +171,12 @@ const ScanQR = ({ route }) => {
         const user = {
           did: 'did:sov:' + generateSovrinDID(mnemonicJson.mnemonic).did,
           name: mnemonicJson.name,
+          mnemonic:mnemonicJson.mnemonic,
           verifyKey: generateSovrinDID(mnemonicJson.mnemonic).verifyKey,
         };
         AsyncStorage.setItem(UserStorageKeys.name, user.name);
         AsyncStorage.setItem(UserStorageKeys.did, user.did);
+        AsyncStorage.setItem(UserStorageKeys.mnemonic, user.mnemonic);
         AsyncStorage.setItem(UserStorageKeys.verifyKey, user.verifyKey);
 
         dispatch(initUser(user));

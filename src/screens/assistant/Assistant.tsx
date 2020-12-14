@@ -83,7 +83,12 @@ const BotThinkingAnimation: React.FC<TransactionAnimationProps> = ({style}) => {
 const Assistant: React.FC<AssistantPageProps> = ({ navigation }) => {
 
 
+
+
+
+
   const userAccount:CosmosAccount = useSelector((state) => state.userStore.account);
+
   const  [receive, setReceive] =useState(false);
 
   console.log("MY ACCOUNT ASSISTANT", userAccount );
@@ -98,8 +103,17 @@ const Assistant: React.FC<AssistantPageProps> = ({ navigation }) => {
   const [counter, setCounter]=useState(0);
   const [botThinking,setBotThinking]= useState(false)
 
+
+  const mnemonic = useSelector((state) => state.userStore.user.mnemonic);
+  console.log("Mnemonic @@@", mnemonic);
+
+  const ixoAdress = cosmosAPi.getIxoAddress(mnemonic.toString());
+
+  console.log("ADDRESS!!! IXO!!!", ixoAdress);
+
+
   const sendTestTransaction = async () =>{
-    let response = await cosmosAPi.sendMessage();
+    let response = await cosmosAPi.sendMessage( 'ixo1x70tkjl6kqy92h2d0rshhpga3a5m672wx59l9n');
     console.log("HASH",response.txhash)
     setTransactionHash(response.txhash)
   }

@@ -4,7 +4,16 @@ import * as cosmos from '../../../cosmosjsRN/cosmos.js';
 export default class CosmosPipe {
   constructor() {}
 
-  sendMessage = () => {
+  getIxoAddress=(mnemonic:string)=>{
+    const chainId = 'pandora-1';
+    const ixo = cosmos.network(
+        'https://ixo-testnet-validator-mt.simply-vc.com.mt/api',
+        chainId,
+    );
+    ixo.getIxoAddress(mnemonic);
+  }
+
+  sendMessage = (receiverAddress) => {
     const mnemonic =
       'oven fade spider sketch episode under glory flee summer kitchen stage ride window polar farm large monkey tortoise assault jar swift believe response degree';
     const chainId = 'pandora-1';
@@ -16,6 +25,8 @@ export default class CosmosPipe {
     ixo.setPath("m/44'/118'/0'/0/0");
     const address = ixo.getAddress(mnemonic);
     console.log('Address', address);
+
+    console.log('ADDRESS RECEIVER',receiverAddress)
     const ecpairPriv = ixo.getECPairPriv(mnemonic);
 
     return ixo.getAccounts(address).then((data) => {
@@ -31,7 +42,7 @@ export default class CosmosPipe {
                 },
               ],
               from_address: address,
-              to_address: 'ixo1x70tkjl6kqy92h2d0rshhpga3a5m672wx59l9n',
+              to_address:  receiverAddress,
             },
           },
         ],
