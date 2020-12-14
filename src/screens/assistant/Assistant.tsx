@@ -59,7 +59,7 @@ interface TransactionAnimationProps {
 const BotThinkingAnimation: React.FC<TransactionAnimationProps> = ({style}) => {
   return (
       <LottieView
-          source={require('../../assets/lottieAnimations/10357-chat-typing-indicator.json')}
+          source={require('../../../assets/lottieAnimations/10357-chat-typing-indicator.json')}
           autoPlay
           loop
           speed={1}
