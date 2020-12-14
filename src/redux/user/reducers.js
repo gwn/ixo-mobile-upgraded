@@ -2,7 +2,7 @@ import {
   USER_CLEAR_STORE,
   USER_FIRST_CLAIM,
   USER_FIRST_LOGIN_CREATE_PASSWORD,
-  USER_INIT,
+  USER_INIT, USER_SET_WALLET_ACCOUNT,
 } from './actions';
 
 const initialState = {
@@ -19,10 +19,17 @@ export const userReducer = (state = initialState, action) => {
         user: action.payload,
       };
 
+
     case USER_FIRST_CLAIM:
       return {
         ...state,
         isFirstClaim: action.payload,
+      };
+
+    case USER_SET_WALLET_ACCOUNT:
+      return {
+        ...state,
+        account: action.payload,
       };
 
     case USER_FIRST_LOGIN_CREATE_PASSWORD:

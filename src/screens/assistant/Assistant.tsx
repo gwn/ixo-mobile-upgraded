@@ -32,6 +32,8 @@ interface AssistantChatMessage {
   message: string;
   fromAssistant: boolean;
   buttons?:Button[];
+  custom?:any;
+  action?:any;
 }
 
 interface AssistantPageProps {
@@ -53,14 +55,11 @@ interface TransactionAnimationProps {
   style: any;
 }
 
-class TransactionAnimationProps {
-}
 
-const BotThinkingAnimation: React.FC<TransactionAnimationProps> = ({
-                                                                     style,}) => {
+const BotThinkingAnimation: React.FC<TransactionAnimationProps> = ({style}) => {
   return (
       <LottieView
-          source={require('../../../assets/lottieAnimations/10357-chat-typing-indicator.json')}
+          source={require('../../assets/lottieAnimations/10357-chat-typing-indicator.json')}
           autoPlay
           loop
           speed={1}
@@ -155,7 +154,7 @@ const Assistant: React.FC<AssistantPageProps> = ({ navigation }) => {
                 <Text style={styles.assistantButtonText}>Validate Transaction</Text>
               </TouchableOpacity>
               <View style={styles.viewContainer}>
-                {messagesChat.map(({ message, fromAssistant ,buttons}, index) => (
+                {messagesChat.map(({ message, fromAssistant ,buttons,custom,action}, index) => (
                     <View style={styles.shadowView} key={index}>
                       <LinearGradient
                           start={{ x: 0.0, y: 0.0 }}
@@ -177,21 +176,34 @@ const Assistant: React.FC<AssistantPageProps> = ({ navigation }) => {
                             }>
                           {message}
                         </Text>
+
+                        {/*TODO Add here QR-code with custom payload (address)*/}
+
+                        {custom? <Text
+                            style={
+                              fromAssistant ? styles.assistantText : styles.messageText
+                            }>
+                          `Custom data - amount:{custom.amount} denom: {custom.denom} to_address: {custom.to_address}`
+                        </Text>:<></>}
                       </LinearGradient>
                       <View style={styles.buttonsContainer}>
                         {buttons ? buttons.map(({ title, type ,payload}, index) =>
                             <TouchableOpacity key={index}
                                               onPress={async () => {
                                                 console.log("RASA payload", payload);
+                                                setBotThinking(true)
                                                 let resp = await rasaAPI.sendMessage(payload);
-                                                console.log(" resp from rasa", resp);
+                                                console.log(" resp from rasa custom", resp[0].custom);
                                                 setBotThinking(false)
-                                                resp.map(({text, buttons})=>
+                                                resp.map(({text, buttons, custom,action})=>
                                                     messagesChat.push({
                                                       message:text,
                                                       fromAssistant: true,
                                                       buttons:buttons,
+                                                      custom:custom,
+                                                      action:action,
                                                     }) )
+                                                setCounter(counter+1);
                                               }}
                                               style={styles.assistantButton}>
                               <Text style={styles.assistantButtonText}>{title}</Text>
@@ -243,12 +255,15 @@ const Assistant: React.FC<AssistantPageProps> = ({ navigation }) => {
                           setBotThinking(false)
                           setInputValue('')
                           console.log(" resp from rasa", resp);
+                          console.log(" resp from rasa custom", resp[0].custom);
 
-                          resp.map(({text, buttons})=>
+                          resp.map(({text, buttons,custom,action})=>
                               messagesChat.push({
                                 message:text,
                                 fromAssistant: true,
                                 buttons:buttons,
+                                custom:custom,
+                                action:action,
                               }) )
                           setCounter(counter+1);
                         }}
