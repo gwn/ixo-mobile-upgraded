@@ -162,6 +162,7 @@ const ScanQR = ({ route }) => {
         const mnemonicJson = Decrypt(payload, password);
 
 
+        console.log("MNEMONIC JSON  MNEMONIC JSONMNEMONIC JSONMNEMONIC JSON MNEMONIC JSONMNEMONIC JSON",mnemonicJson);
 
         SInfo.setItem(SecureStorageKeys.encryptedMnemonic, payload, {});
 

@@ -4,18 +4,19 @@ import * as cosmos from '../../../cosmosjsRN/cosmos.js';
 export default class CosmosPipe {
   constructor() {}
 
-  getIxoAddress=(mnemonic:string)=>{
+  getAddress=(mnemonic:string)=>{
     const chainId = 'pandora-1';
     const ixo = cosmos.network(
         'https://ixo-testnet-validator-mt.simply-vc.com.mt/api',
         chainId,
     );
-    ixo.getIxoAddress(mnemonic);
+   return ixo.getAddress(mnemonic);
   }
 
-  sendMessage = (receiverAddress) => {
-    const mnemonic =
-      'oven fade spider sketch episode under glory flee summer kitchen stage ride window polar farm large monkey tortoise assault jar swift believe response degree';
+
+  sendMessage = ( mnemonic ,receiverAddress) => {
+    // const mnemonic =
+    //   'oven fade spider sketch episode under glory flee summer kitchen stage ride window polar farm large monkey tortoise assault jar swift believe response degree';
     const chainId = 'pandora-1';
     const ixo = cosmos.network(
       'https://ixo-testnet-validator-mt.simply-vc.com.mt/api',

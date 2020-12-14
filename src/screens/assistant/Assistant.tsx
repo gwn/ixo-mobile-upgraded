@@ -104,16 +104,17 @@ const Assistant: React.FC<AssistantPageProps> = ({ navigation }) => {
   const [botThinking,setBotThinking]= useState(false)
 
 
-  const mnemonic = useSelector((state) => state.userStore.user.mnemonic);
+  const mnemonic = useSelector((state) => state.userStore.user.mnemonic)
+
   console.log("Mnemonic @@@", mnemonic);
 
-  const ixoAdress = cosmosAPi.getIxoAddress(mnemonic.toString());
+  const  cosmosAddres = cosmosAPi.getAddress(mnemonic);
 
-  console.log("ADDRESS!!! IXO!!!", ixoAdress);
+  console.log("ADDRESS!!! IXO!!!", cosmosAddres);
 
 
   const sendTestTransaction = async () =>{
-    let response = await cosmosAPi.sendMessage( 'ixo1x70tkjl6kqy92h2d0rshhpga3a5m672wx59l9n');
+    let response = await cosmosAPi.sendMessage( mnemonic,'ixo1x70tkjl6kqy92h2d0rshhpga3a5m672wx59l9n');
     console.log("HASH",response.txhash)
     setTransactionHash(response.txhash)
   }
@@ -133,6 +134,7 @@ const Assistant: React.FC<AssistantPageProps> = ({ navigation }) => {
           message: "Try to validate later please",
           fromAssistant: true,
         })
+    setCounter(counter+1);
   }
 
   return (
@@ -233,7 +235,7 @@ const Assistant: React.FC<AssistantPageProps> = ({ navigation }) => {
                       </View>
                     </View>
                 ))}
-                {receive? <QRCode value = {userAccount.value.address}/> :<></>}
+                {receive? <QRCode value = {userAccount.value.address} style={{width:80, height:80}}/> :<></>}
                 {botThinking? ( <LinearGradient
                     start={{ x: 0.0, y: 0.0 }}
                     end={{ x: 0.0, y: 1.0 }}
