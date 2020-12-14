@@ -5,6 +5,7 @@ export const USER_FIRST_LOGIN_CREATE_PASSWORD =
   'USER_FIRST_LOGIN_CREATE_PASSWORD';
 export const USER_CLEAR_STORE = 'USER_CLEAR_STORE';
 
+
 export const initUser = (user) => {
   return {
     type: USER_INIT,
@@ -18,6 +19,7 @@ export const userSetWalletAccount =(account)=>{
     payload: account,
   };
 }
+
 
 export const userFirstClaim = () => {
   return {

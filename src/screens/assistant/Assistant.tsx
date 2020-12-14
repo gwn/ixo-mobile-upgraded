@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState,useEffect } from 'react';
 import {
   Image,
   Platform,
@@ -96,18 +96,7 @@ const Assistant: React.FC<AssistantPageProps> = ({ navigation }) => {
   const [counter, setCounter]=useState(0);
   const [botThinking,setBotThinking]= useState(false)
 
-
-  const mnemonic = useSelector((state) => state.userStore.user.mnemonic)
-
-  console.log("Mnemonic @@@", mnemonic);
-
-  const  [cosmosAddress,setCosmosAddress] = useState('')
-
- let accountAddress = cosmosAPi.getAddress(mnemonic);
-    setCosmosAddress(accountAddress);
-
-  console.log("ADDRESS!!! IXO!!!", cosmosAddress);
-
+  const mnemonic = useSelector((state) => state.userStore.user.mnemonic);
 
 
   const sendTestTransaction = async () =>{

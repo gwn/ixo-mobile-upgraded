@@ -75,27 +75,24 @@ interface WalletProps {
 const Wallet: React.FC<WalletProps> = ({ amount, navigation }) => {
 
   const validationPipe = new ValidationPipe();
-
   const cosmosAPi =new CosmosPipe();
-
   const user = useSelector((state) => state.userStore.user);
 
   const mnemonic = useSelector((state) => state.userStore.user.mnemonic);
+
   console.log("Mnemonic @@@", mnemonic);
 
   const  [cosmosAddress,setCosmosAddress] = useState('')
-
-
   const dispatch = useDispatch();
 
   let [userAccount,setAccount]=useState<CosmosAccount>(null)
 
-  useEffect(()=>{
-     setCosmosAddress(cosmosAPi.getAddress(mnemonic));
-    validationPipe.getAccount('ixo1z7vwqeku3sz34sd8eq4ppg9stkv8ugu959jy26').then((res) => res.json()).then((resp) => setAccount(resp.result));},[]);
-  dispatch(userSetWalletAccount(userAccount));
+  useEffect(()=>
+  {let result= cosmosAPi.getAddress( 'oven fade spider sketch episode under glory flee summer kitchen stage ride window polar farm large monkey tortoise assault jar swift believe response degree');
+      setCosmosAddress(result);
+    validationPipe.getAccount(result).then((res) => res.json()).then((resp) => setAccount(resp.result));},[]);
 
- console.log("COSMOS ADDRESSS FROM WALLET", cosmosAddress);
+  dispatch(userSetWalletAccount(userAccount));
 
   // 'ixo1z7vwqeku3sz34sd8eq4ppg9stkv8ugu959jy26'
 
