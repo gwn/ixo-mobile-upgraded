@@ -74,8 +74,10 @@ interface WalletProps {
 const Wallet: React.FC<WalletProps> = ({ amount, navigation }) => {
 
   const validationPipe = new ValidationPipe();
+
   const userAccount:CosmosAccountResponse|CosmosAccount = useSelector((state) => state.userStore.account);
   const user = useSelector((state) => state.userStore.user);
+
   const dispatch = useDispatch();
 
 
@@ -179,11 +181,12 @@ const Wallet: React.FC<WalletProps> = ({ amount, navigation }) => {
         </ScrollView>
         <AssistantNavigator
           // @ts-ignore
-          onLongPress={() => navigation.navigate('ScanQR')}
+          onLongPress={() => navigation.navigate('ScanQR',{ projectScan: false })}
           onPress={() => navigation.navigate('Assistant')}
         />
       </View>
     </SafeAreaView>
   );
 };
+
 export default Wallet;

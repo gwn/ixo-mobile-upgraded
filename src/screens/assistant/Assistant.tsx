@@ -58,13 +58,13 @@ interface TransactionAnimationProps {
 
 const BotThinkingAnimation: React.FC<TransactionAnimationProps> = ({style}) => {
   return (
-    <LottieView
-      source={require('../../../assets/lottieAnimations/10357-chat-typing-indicator.json')}
-      autoPlay
-      loop
-      speed={1}
-      style={style}
-    />
+      <LottieView
+          source={require('../../../assets/lottieAnimations/10357-chat-typing-indicator.json')}
+          autoPlay
+          loop
+          speed={1}
+          style={style}
+      />
   );
 };
 
@@ -231,7 +231,7 @@ const Assistant: React.FC<AssistantPageProps> = ({ navigation }) => {
             <View style={styles.footer}>
               <TouchableOpacity
                   style={styles.footerButton}
-                  onPress={() => navigation.navigate('ScanQR')}>
+                  onPress={() => navigation.navigate('ScanQR',{ projectScan: false })}>
                 <Image source={Images.Options} style={styles.imageLeft} />
               </TouchableOpacity>
               <View style={styles.inputContainer}>
