@@ -22,6 +22,7 @@ import ValidationPipe from '../api/cosmosPipe/ValidationPipe';
 import LottieView from "lottie-react-native";
 import {useDispatch, useSelector} from 'react-redux';
 import {CosmosAccount, CosmosAccountResponse} from "../../models/CosmosResponses";
+import QRCode from 'react-native-qrcode-svg';
 
 interface Button {
   title: string;
@@ -83,6 +84,7 @@ const Assistant: React.FC<AssistantPageProps> = ({ navigation }) => {
 
 
   const userAccount:CosmosAccount = useSelector((state) => state.userStore.account);
+  const  [receive, setReceive] =useState(false);
 
   console.log("MY ACCOUNT ASSISTANT", userAccount );
 
@@ -182,7 +184,7 @@ const Assistant: React.FC<AssistantPageProps> = ({ navigation }) => {
                           {message}
                         </Text>
 
-                        {/*TODO Add here QR-code with custom payload (address)*/}
+
 
                         {custom? <Text
                             style={
@@ -217,6 +219,7 @@ const Assistant: React.FC<AssistantPageProps> = ({ navigation }) => {
                       </View>
                     </View>
                 ))}
+                {receive? <QRCode value = {userAccount.value.address}/> :<></>}
                 {botThinking? ( <LinearGradient
                     start={{ x: 0.0, y: 0.0 }}
                     end={{ x: 0.0, y: 1.0 }}
@@ -258,6 +261,7 @@ const Assistant: React.FC<AssistantPageProps> = ({ navigation }) => {
                           setBotThinking(true);
                           let resp = await rasaAPI.sendMessage(inputValue);
                           setBotThinking(false)
+                          inputValue.toLowerCase().includes('receive')?setReceive(true):null;
                           setInputValue('')
                           console.log(" resp from rasa", resp);
                           console.log(" resp from rasa custom", resp[0].custom);

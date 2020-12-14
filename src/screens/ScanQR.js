@@ -127,6 +127,7 @@ const ScanQR = ({ route }) => {
   const _handleBarCodeRead = (_payload) => {
     if (!modalVisible) {
       if (validator.isBase64(_payload.data) && !_projectScan) {
+        console.log("DATA DID FROM QR", _payload.data);
         setModalVisible(true);
         setPayload(_payload.data);
       } else if (_payload.data.includes('projects') && _projectScan) {
@@ -163,6 +164,7 @@ const ScanQR = ({ route }) => {
         SInfo.setItem(SecureStorageKeys.encryptedMnemonic, payload, {});
 
         AsyncStorage.setItem(LocalStorageKeys.firstLaunch, 'true');
+
 
         const user = {
           did: 'did:sov:' + generateSovrinDID(mnemonicJson.mnemonic).did,
