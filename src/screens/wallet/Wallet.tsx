@@ -15,9 +15,9 @@ import WalletItem from './WalletItem';
 import * as Images from '../../../assets/images';
 import AssistantNavigator from '../../components/asssitantNavigator/AssistantNavigator';
 import {useDispatch, useSelector} from 'react-redux';
-import {useEffect} from "react";
+import {useEffect,useState} from "react";
 import ValidationPipe from "../api/cosmosPipe/ValidationPipe";
-import userSetWalletAccount from'../../redux/user/actions';
+import {userSetWalletAccount} from'../../redux/user/actions';
 import {CosmosAccount, CosmosAccountResponse} from "../../models/CosmosResponses";
 
 const FakeData = [
@@ -75,16 +75,15 @@ const Wallet: React.FC<WalletProps> = ({ amount, navigation }) => {
 
   const validationPipe = new ValidationPipe();
 
-  const userAccount:CosmosAccountResponse|CosmosAccount = useSelector((state) => state.userStore.account);
+
   const user = useSelector((state) => state.userStore.user);
 
   const dispatch = useDispatch();
 
+  let [userAccount,setAccount]=useState<CosmosAccount>(null)
 
-
-  useEffect(()=>{validationPipe.getAccount(user.did).then((res)=>res.json()).then((resp)=> dispatch(userSetWalletAccount(resp))) },[]);
-
-  console.log('User',user, 'UserAccount',userAccount);
+  useEffect(()=>{validationPipe.getAccount('ixo1z7vwqeku3sz34sd8eq4ppg9stkv8ugu959jy26').then((res) => res.json()).then((resp) => setAccount(resp.result))},[]);
+  dispatch(userSetWalletAccount(userAccount));
 
   return (
     <SafeAreaView style={styles.container}>

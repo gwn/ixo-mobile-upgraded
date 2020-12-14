@@ -20,6 +20,8 @@ import RasaAPI from '../api/restApi/RasaAPI';
 import CosmosPipe from '../api/cosmosPipe/CosmosPipe';
 import ValidationPipe from '../api/cosmosPipe/ValidationPipe';
 import LottieView from "lottie-react-native";
+import {useDispatch, useSelector} from 'react-redux';
+import {CosmosAccount, CosmosAccountResponse} from "../../models/CosmosResponses";
 
 interface Button {
   title: string;
@@ -79,6 +81,10 @@ const BotThinkingAnimation: React.FC<TransactionAnimationProps> = ({style}) => {
 
 const Assistant: React.FC<AssistantPageProps> = ({ navigation }) => {
 
+
+  const userAccount:CosmosAccount = useSelector((state) => state.userStore.account);
+
+  console.log("MY ACCOUNT ASSISTANT", userAccount );
 
   const validationAPi =new ValidationPipe();
   const cosmosAPi =new CosmosPipe();

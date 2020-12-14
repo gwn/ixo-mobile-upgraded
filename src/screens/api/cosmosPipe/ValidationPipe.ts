@@ -5,8 +5,6 @@ export default class ValidationPipe {
 
 
     getAccount(account:string ) {
-
-
         return fetch(
             `https://ixo-testnet-validator-mt.simply-vc.com.mt/api/auth/accounts/${account}`, {
                 method: 'Get'
