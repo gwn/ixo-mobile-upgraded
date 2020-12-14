@@ -181,7 +181,7 @@ const Wallet: React.FC<WalletProps> = ({ amount, navigation }) => {
         </ScrollView>
         <AssistantNavigator
           // @ts-ignore
-          onLongPress={() => navigation.navigate('ScanQR')}
+          onLongPress={() => navigation.navigate('ScanQR',{ projectScan: false })}
           onPress={() => navigation.navigate('Assistant')}
         />
       </View>
