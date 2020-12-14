@@ -102,7 +102,6 @@ const Assistant: React.FC<AssistantPageProps> = ({ navigation }) => {
     setTransactionHash(response.txhash)
   }
 
-
   // TODO use flatlist  instead map
 
   const validateTestTransaction = async () =>{

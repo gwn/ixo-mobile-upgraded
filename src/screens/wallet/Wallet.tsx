@@ -100,18 +100,18 @@ const Wallet: React.FC<WalletProps> = ({ amount, navigation }) => {
             <Image style={styles.button} source={Images.iconMenu} />
           </TouchableOpacity>
           <View style={styles.accountContainer}>
-            <Text style={styles.accountText}>223jjshdaw49834521</Text>
-            <Text style={styles.accountValueText}>Account value</Text>
+            <Text style={styles.accountText}>{user.did}</Text>
+            <Text style={styles.accountValueText}>{user.name}</Text>
           </View>
         </View>
         <View style={styles.moneyAmountContainer}>
-          <Text style={styles.currency}>€</Text>
-          <Text style={styles.amountGeneral}>3,432,023</Text>
+          <Text style={styles.currency}>{userAccount?userAccount.value.coins[2].denom :'ND' }</Text>
+          <Text style={styles.amountGeneral}>{userAccount?(userAccount.value.coins[2].amount/1000000).toFixed(2):'ND'}</Text>
         </View>
         <ScrollView>
           <View style={styles.categoryContainer}>
             <Text style={styles.categoryText}>Wallet</Text>
-            <Text style={styles.categoryText}>€23</Text>
+            <Text style={styles.categoryText}>{userAccount?(userAccount.value.coins[2].amount/1000000).toFixed(2):'ND'}</Text>
           </View>
           <View style={styles.flatlistWrapper}>
             <FlatList
