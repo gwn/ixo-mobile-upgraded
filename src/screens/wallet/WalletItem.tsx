@@ -14,6 +14,7 @@ import LineChartSmall from '../../components/lineChart/LineChart';
 interface WalletItemProps {
   title?: string;
   image: string;
+  amount?:string;
   secondaryImage?: string;
   onPress?: any;
   titleStyle?: TextStyle;
@@ -31,6 +32,7 @@ const WalletItem: React.FC<WalletItemProps> = ({
                                                  secondaryImage,
                                                  investmentName,
                                                  portfolio,
+                                                 amount
                                                }) => {
   // @ts-ignore
   let percentIsPositive = false;
@@ -70,8 +72,8 @@ const WalletItem: React.FC<WalletItemProps> = ({
               </View>
           )}
           <View style={styles.percentContainer}>
-            <Text style={styles.amountStyle}>€3.01</Text>
-            <Text style={styles.subAmount}>32,021 IXO</Text>
+            <Text style={styles.amountStyle}>{amount?(amount/1000000).toFixed(2): '$28'} </Text>
+            <Text style={styles.subAmount}>{amount? (amount/1000000).toFixed(2):'301'} IXO</Text>
           </View>
         </View>
       </TouchableOpacity>

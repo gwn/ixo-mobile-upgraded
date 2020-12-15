@@ -103,18 +103,18 @@ const Assistant: React.FC<AssistantPageProps> = ({ navigation,route }) => {
    if (qrData.receiverAddress) {
   messagesChat.push({
     message:`The address of the receiver is      ${qrData.receiverAddress}       it was set successfully `,
-
     fromAssistant: true,
   })
    }
 
 
   const sendTestTransaction = async () =>{
-    let response = await cosmosAPi.sendMessage( 'oven fade spider sketch episode under glory flee summer kitchen stage ride window polar farm large monkey tortoise assault jar swift believe response degree', qrData.receiverAddress);
+    let response = await cosmosAPi.sendMessage( mnemonic, qrData.receiverAddress);
     console.log("HASH",response.txhash)
     setTransactionHash(response.txhash)
   }
   //ixo1x70tkjl6kqy92h2d0rshhpga3a5m672wx59l9n - reciever
+
   // TODO use flatlist  instead map
 
   const validateTestTransaction = async () =>{

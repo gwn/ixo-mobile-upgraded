@@ -88,12 +88,13 @@ const Wallet: React.FC<WalletProps> = ({ amount, navigation }) => {
   let [userAccount,setAccount]=useState<CosmosAccount>(null)
 
   useEffect(()=>
-  {let result= cosmosAPi.getAddress( 'oven fade spider sketch episode under glory flee summer kitchen stage ride window polar farm large monkey tortoise assault jar swift believe response degree');
+  {let result= cosmosAPi.getAddress( mnemonic);
       setCosmosAddress(result);
     validationPipe.getAccount(result).then((res) => res.json()).then((resp) => setAccount(resp.result));},[]);
 
   dispatch(userSetWalletAccount(userAccount));
 
+  //'oven fade spider sketch episode under glory flee summer kitchen stage ride window polar farm large monkey tortoise assault jar swift believe response degree'
   // 'ixo1z7vwqeku3sz34sd8eq4ppg9stkv8ugu959jy26'
 
   return (
@@ -125,21 +126,23 @@ const Wallet: React.FC<WalletProps> = ({ amount, navigation }) => {
             <Text style={styles.categoryText}>{userAccount?(userAccount.value.coins[2].amount/1000000).toFixed(2):'ND'}</Text>
           </View>
           <View style={styles.flatlistWrapper}>
+            {userAccount?
             <FlatList
               style={styles.walletContainer}
-              data={FakeData}
-              keyExtractor={(item) => item.id}
+              data={userAccount.value.coins}
+              keyExtractor={(item) => item.index}
               renderItem={({ item }) => (
                 <WalletItem
-                  title={item.title}
+                  title={item.denom}
                   onPress={() =>
-                    navigation.navigate('Transactions', { itemID: item.id })
+                    navigation.navigate('Transactions', { itemID: item.index })
                   }
                   secondaryImage={Images.Fill}
                   image={item.image}
+                  amount={item.amount}
                 />
               )}
-            />
+            /> :<></>}
           </View>
           <View style={styles.flatlistWrapper}>
             <View style={styles.categoryContainer}>
