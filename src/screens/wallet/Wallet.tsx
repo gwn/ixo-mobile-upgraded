@@ -15,10 +15,11 @@ import WalletItem from './WalletItem';
 import * as Images from '../../../assets/images';
 import AssistantNavigator from '../../components/asssitantNavigator/AssistantNavigator';
 import {useDispatch, useSelector} from 'react-redux';
-import {useEffect} from "react";
+import {useEffect,useState} from "react";
 import ValidationPipe from "../api/cosmosPipe/ValidationPipe";
-import userSetWalletAccount from'../../redux/user/actions';
+import {userSetWalletAccount} from'../../redux/user/actions';
 import {CosmosAccount, CosmosAccountResponse} from "../../models/CosmosResponses";
+import CosmosPipe from "../api/cosmosPipe/CosmosPipe";
 
 const FakeData = [
   {
@@ -74,17 +75,27 @@ interface WalletProps {
 const Wallet: React.FC<WalletProps> = ({ amount, navigation }) => {
 
   const validationPipe = new ValidationPipe();
-
-  const userAccount:CosmosAccountResponse|CosmosAccount = useSelector((state) => state.userStore.account);
+  const cosmosAPi =new CosmosPipe();
   const user = useSelector((state) => state.userStore.user);
 
+  const mnemonic = useSelector((state) => state.userStore.user.mnemonic);
+
+  console.log("Mnemonic @@@", mnemonic);
+
+  const  [cosmosAddress,setCosmosAddress] = useState('')
   const dispatch = useDispatch();
 
+  let [userAccount,setAccount]=useState<CosmosAccount>(null)
 
+  useEffect(()=>
+  {let result= cosmosAPi.getAddress( mnemonic);
+      setCosmosAddress(result);
+    validationPipe.getAccount(result).then((res) => res.json()).then((resp) => setAccount(resp.result));},[]);
 
-  useEffect(()=>{validationPipe.getAccount(user.did).then((res)=>res.json()).then((resp)=> dispatch(userSetWalletAccount(resp))) },[]);
+  dispatch(userSetWalletAccount(userAccount));
 
-  console.log('User',user, 'UserAccount',userAccount);
+  //'oven fade spider sketch episode under glory flee summer kitchen stage ride window polar farm large monkey tortoise assault jar swift believe response degree'
+  // 'ixo1z7vwqeku3sz34sd8eq4ppg9stkv8ugu959jy26'
 
   return (
     <SafeAreaView style={styles.container}>
@@ -101,35 +112,37 @@ const Wallet: React.FC<WalletProps> = ({ amount, navigation }) => {
             <Image style={styles.button} source={Images.iconMenu} />
           </TouchableOpacity>
           <View style={styles.accountContainer}>
-            <Text style={styles.accountText}>223jjshdaw49834521</Text>
-            <Text style={styles.accountValueText}>Account value</Text>
+            <Text style={styles.accountText}>{user.did}</Text>
+            <Text style={styles.accountValueText}>{user.name}</Text>
           </View>
         </View>
         <View style={styles.moneyAmountContainer}>
-          <Text style={styles.currency}>€</Text>
-          <Text style={styles.amountGeneral}>3,432,023</Text>
+          <Text style={styles.currency}>{userAccount && userAccount.value.coins[2]!==undefined ?userAccount.value.coins[2].denom :'ND' }</Text>
+          <Text style={styles.amountGeneral}>{userAccount  && userAccount.value.coins[2]!==undefined ?(userAccount.value.coins[2].amount/1000000).toFixed(2):'ND'}</Text>
         </View>
         <ScrollView>
           <View style={styles.categoryContainer}>
             <Text style={styles.categoryText}>Wallet</Text>
-            <Text style={styles.categoryText}>€23</Text>
+            <Text style={styles.categoryText}>{userAccount && userAccount.value.coins[2]!==undefined ?(userAccount.value.coins[2].amount/1000000).toFixed(2):'ND'}</Text>
           </View>
           <View style={styles.flatlistWrapper}>
+            {userAccount?
             <FlatList
               style={styles.walletContainer}
-              data={FakeData}
-              keyExtractor={(item) => item.id}
+              data={userAccount.value.coins}
+              keyExtractor={(item) => item.index}
               renderItem={({ item }) => (
                 <WalletItem
-                  title={item.title}
+                  title={item.denom}
                   onPress={() =>
-                    navigation.navigate('Transactions', { itemID: item.id })
+                    navigation.navigate('Transactions', { itemID: item.index })
                   }
                   secondaryImage={Images.Fill}
                   image={item.image}
+                  amount={item.amount}
                 />
               )}
-            />
+            /> :<></>}
           </View>
           <View style={styles.flatlistWrapper}>
             <View style={styles.categoryContainer}>
@@ -181,7 +194,7 @@ const Wallet: React.FC<WalletProps> = ({ amount, navigation }) => {
         </ScrollView>
         <AssistantNavigator
           // @ts-ignore
-          onLongPress={() => navigation.navigate('ScanQR',{ projectScan: false })}
+          onLongPress={() => navigation.navigate('ScanQR',{ projectScan: false, fromAssistant:true })}
           onPress={() => navigation.navigate('Assistant')}
         />
       </View>

@@ -124,8 +124,14 @@ const ScanQR = ({ route }) => {
   let _projectScan = true;
   _projectScan = route.params.projectScan;
 
+  let fromAssistant;
+  fromAssistant=route.params.fromAssistant;
+
   const _handleBarCodeRead = (_payload) => {
     if (!modalVisible) {
+      if(fromAssistant){
+      navigation.navigate('Assistant', {receiverAddress:_payload.data});
+      }
       if (validator.isBase64(_payload.data) && !_projectScan) {
         setModalVisible(true);
         setPayload(_payload.data);
@@ -164,13 +170,16 @@ const ScanQR = ({ route }) => {
 
         AsyncStorage.setItem(LocalStorageKeys.firstLaunch, 'true');
 
+
         const user = {
           did: 'did:sov:' + generateSovrinDID(mnemonicJson.mnemonic).did,
           name: mnemonicJson.name,
+          mnemonic:mnemonicJson.mnemonic,
           verifyKey: generateSovrinDID(mnemonicJson.mnemonic).verifyKey,
         };
         AsyncStorage.setItem(UserStorageKeys.name, user.name);
         AsyncStorage.setItem(UserStorageKeys.did, user.did);
+        AsyncStorage.setItem(UserStorageKeys.mnemonic, user.mnemonic);
         AsyncStorage.setItem(UserStorageKeys.verifyKey, user.verifyKey);
 
         dispatch(initUser(user));
@@ -420,7 +429,7 @@ const ScanQR = ({ route }) => {
         onRequestClose={() => null}
         animationType="slide"
         transparent={true}
-        visible={modalVisible}>
+        visible={fromAssistant ? null:modalVisible}>
         {_projectScan ? renderProjectScanned() : renderKeySafeScannedModal()}
       </Modal>
       <RNCamera
@@ -433,7 +442,7 @@ const ScanQR = ({ route }) => {
         permissionDialogMessage={
           'We need your permission to use your camera phone'
         }>
-        {renderInfoBlocks()}
+        {fromAssistant ? null : renderInfoBlocks()}
       </RNCamera>
     </View>
   );

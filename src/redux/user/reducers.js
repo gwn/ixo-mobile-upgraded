@@ -2,10 +2,12 @@ import {
   USER_CLEAR_STORE,
   USER_FIRST_CLAIM,
   USER_FIRST_LOGIN_CREATE_PASSWORD,
-  USER_INIT, USER_SET_WALLET_ACCOUNT,
+  USER_INIT,
+  USER_SET_WALLET_ACCOUNT,
 } from './actions';
 
 const initialState = {
+  account:null,
   user: null,
   isFirstClaim: true,
   isLoginPasswordSet: false,

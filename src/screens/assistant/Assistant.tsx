@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState,useEffect,useMemo } from 'react';
 import {
   Image,
   Platform,
@@ -20,6 +20,9 @@ import RasaAPI from '../api/restApi/RasaAPI';
 import CosmosPipe from '../api/cosmosPipe/CosmosPipe';
 import ValidationPipe from '../api/cosmosPipe/ValidationPipe';
 import LottieView from "lottie-react-native";
+import {useDispatch, useSelector} from 'react-redux';
+import {CosmosAccount, CosmosAccountResponse} from "../../models/CosmosResponses";
+import QRCode from 'react-native-qrcode-svg';
 
 interface Button {
   title: string;
@@ -70,15 +73,13 @@ const BotThinkingAnimation: React.FC<TransactionAnimationProps> = ({style}) => {
 
 
 
-
-
-
-
 //TODO store chats in redux
 
 
-const Assistant: React.FC<AssistantPageProps> = ({ navigation }) => {
+const Assistant: React.FC<AssistantPageProps> = ({ navigation,route }) => {
 
+  const userAccount:CosmosAccount = useSelector((state) => state.userStore.account);
+  const  [receive, setReceive] =useState(false);
 
   const validationAPi =new ValidationPipe();
   const cosmosAPi =new CosmosPipe();
@@ -89,18 +90,34 @@ const Assistant: React.FC<AssistantPageProps> = ({ navigation }) => {
   const scrollViewRef = useRef();
   const [counter, setCounter]=useState(0);
   const [botThinking,setBotThinking]= useState(false)
+  const [qrData,setQrData]=useState('');
+
+  const mnemonic = useSelector((state) => state.userStore.user.mnemonic);
+
+  useMemo(() => ({
+    ...route,
+    params: route.params === undefined ? {} : setQrData(route.params)
+  }), [route])
+
+   if (qrData.receiverAddress) {
+  messagesChat.push({
+    message:`The address of the receiver is      ${qrData.receiverAddress}       it was set successfully `,
+    fromAssistant: true,
+  })
+   }
+
 
   const sendTestTransaction = async () =>{
-    let response = await cosmosAPi.sendMessage();
+    let response = await cosmosAPi.sendMessage( mnemonic, qrData.receiverAddress);
     console.log("HASH",response.txhash)
     setTransactionHash(response.txhash)
   }
-
+  //ixo1x70tkjl6kqy92h2d0rshhpga3a5m672wx59l9n - reciever
 
   // TODO use flatlist  instead map
 
   const validateTestTransaction = async () =>{
-    const  transaction = await validationAPi.getTransaction(transactionHash)
+    const  transaction = await validationAPi.getTransaction(transactionHash);
     setInputValue(`Transaction value ixo ${transaction.events[1].attributes[1].value.toString()} ,Transaction sender ${transaction.events[0].attributes[1].value.toString()},Transaction recipient ${transaction.events[1].attributes[0].value.toString()}`)
     console.log( "Transaction value ixo",transaction.events[1].attributes[1].value,"Transaction sender",transaction.events[0].attributes[1].value,"Transaction recipient",transaction.events[1].attributes[0].value);
     transaction.events !== undefined  ?
@@ -112,6 +129,7 @@ const Assistant: React.FC<AssistantPageProps> = ({ navigation }) => {
           message: "Try to validate later please",
           fromAssistant: true,
         })
+    setCounter(counter+1);
   }
 
   return (
@@ -176,9 +194,6 @@ const Assistant: React.FC<AssistantPageProps> = ({ navigation }) => {
                             }>
                           {message}
                         </Text>
-
-                        {/*TODO Add here QR-code with custom payload (address)*/}
-
                         {custom? <Text
                             style={
                               fromAssistant ? styles.assistantText : styles.messageText
@@ -212,6 +227,7 @@ const Assistant: React.FC<AssistantPageProps> = ({ navigation }) => {
                       </View>
                     </View>
                 ))}
+                {receive? <QRCode value = {userAccount.value.address} style={{width:80, height:80}}/> :<></>}
                 {botThinking? ( <LinearGradient
                     start={{ x: 0.0, y: 0.0 }}
                     end={{ x: 0.0, y: 1.0 }}
@@ -231,7 +247,7 @@ const Assistant: React.FC<AssistantPageProps> = ({ navigation }) => {
             <View style={styles.footer}>
               <TouchableOpacity
                   style={styles.footerButton}
-                  onPress={() => navigation.navigate('ScanQR',{ projectScan: false })}>
+                  onPress={() => navigation.navigate('ScanQR',{ projectScan: false, fromAssistant:true })}>
                 <Image source={Images.Options} style={styles.imageLeft} />
               </TouchableOpacity>
               <View style={styles.inputContainer}>
@@ -253,6 +269,7 @@ const Assistant: React.FC<AssistantPageProps> = ({ navigation }) => {
                           setBotThinking(true);
                           let resp = await rasaAPI.sendMessage(inputValue);
                           setBotThinking(false)
+                          inputValue.toLowerCase().includes('receive')?setReceive(true):null;
                           setInputValue('')
                           console.log(" resp from rasa", resp);
                           console.log(" resp from rasa custom", resp[0].custom);

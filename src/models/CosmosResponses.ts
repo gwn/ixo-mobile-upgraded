@@ -21,7 +21,6 @@ export type CosmosValue ={
 export type CosmosAccount ={
  type:string,
     value:CosmosValue
-
 }
 export type CosmosAccountResponse ={
     height:string|number,

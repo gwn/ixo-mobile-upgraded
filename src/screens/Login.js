@@ -62,6 +62,7 @@ const Login = () => {
       const name = await AsyncStorage.getItem(UserStorageKeys.name);
       const did = await AsyncStorage.getItem(UserStorageKeys.did);
       const verifyKey = await AsyncStorage.getItem(UserStorageKeys.verifyKey);
+        const mnemonic = await AsyncStorage.getItem(UserStorageKeys.mnemonic);
 
       console.log('data: ', `${name} ${did} ${verifyKey}`);
       if (name && did && verifyKey) {
@@ -70,6 +71,7 @@ const Login = () => {
             name,
             did,
             verifyKey,
+              mnemonic,
           }),
         );
       }
