@@ -36,6 +36,9 @@ import ContainerStyles from '../styles/Containers';
 
 import { AddingServiceProvider } from '../utils/scanQR';
 
+import { LogBox } from 'react-native';
+LogBox.ignoreLogs(['Warning: ...']);
+
 import keysafelogo from '../../assets/keysafe-logo.png';
 import qr from '../../assets/qr.png';
 
@@ -120,35 +123,44 @@ const ScanQR = ({ route }) => {
   );
   const [type, setType] = useState(RNCamera.Constants.Type.back);
   const [userEmail, setUserEmail] = useState('');
+  const [barCodeScanned, setBarCodeScanned] = useState(false);
 
   let _projectScan = true;
   _projectScan = route.params.projectScan;
 
   let fromAssistant;
-  fromAssistant=route.params.fromAssistant;
+  fromAssistant = route.params.fromAssistant;
 
   const _handleBarCodeRead = (_payload) => {
+    if (barCodeScanned) {
+      return;
+    }
     if (!modalVisible) {
-      if(fromAssistant){
-      navigation.navigate('Assistant', {receiverAddress:_payload.data});
+      if (fromAssistant) {
+        navigation.navigate('Assistant', { receiverAddress: _payload.data });
       }
       if (validator.isBase64(_payload.data) && !_projectScan) {
         setModalVisible(true);
         setPayload(_payload.data);
+        setBarCodeScanned(true);
       } else if (_payload.data.includes('projects') && _projectScan) {
+        setBarCodeScanned(true);
         const _projectDid = _payload.data.substring(
-          _payload.data.length - 39,
-          _payload.data.length - 9,
+          _payload.data.length - 30,
+          _payload.data.length,
         );
-
         setModalVisible(true);
         setPayload(null);
         setProjectDid(_projectDid);
 
-        ixoStore.project.getProjectByProjectDid(_projectDid).then((project) => {
-          setProjectTitle(project.data.title);
-          setServiceEndpoint(project.data.serviceEndpoint);
-        });
+        ixoStore.ixo.project
+          .getProjectByProjectDid(_projectDid)
+          .then((project) => {
+            console.log('Project: ', project);
+            setProjectTitle(project.data.name);
+            setServiceEndpoint(project.data);
+            console.log('ServiceEndpoint: ', project.data);
+          });
       } else {
         setErrors(true);
         setModalVisible(true);
@@ -170,11 +182,10 @@ const ScanQR = ({ route }) => {
 
         AsyncStorage.setItem(LocalStorageKeys.firstLaunch, 'true');
 
-
         const user = {
           did: 'did:sov:' + generateSovrinDID(mnemonicJson.mnemonic).did,
           name: mnemonicJson.name,
-          mnemonic:mnemonicJson.mnemonic,
+          mnemonic: mnemonicJson.mnemonic,
           verifyKey: generateSovrinDID(mnemonicJson.mnemonic).verifyKey,
         };
         AsyncStorage.setItem(UserStorageKeys.name, user.name);
@@ -196,24 +207,34 @@ const ScanQR = ({ route }) => {
   };
 
   const handleRegisterServiceAgent = () => {
+    console.log('userEmail: ', userEmail);
     if (userEmail === '') {
       setLoading(false);
       setServiceProviderFieldError(t('scanQR:missingField'));
       return;
     }
+
     setLoading(true);
+    console.log('Before try');
     try {
+      console.log('userStore: ', userStore);
       const agentData = {
         email: userEmail,
-        name: userStore.name,
-        role: 'SA',
-        agentDid: userStore.did,
+        name: userStore.user.name,
+        role: 'EA',
+        agentDid: userStore.user.did,
         projectDid: projectDid,
       };
+      console.log('userStore: ', userStore);
+      console.log('agentData: ', agentData);
       getSignature(agentData).then((signature) => {
-        ixoStore.agent
+        console.log('signature: ', signature);
+        console.log('ixoStore: ', ixoStore);
+
+        ixoStore.ixo.agent
           .createAgent(agentData, signature, serviceEndpoint)
           .then((res) => {
+            console.log('res: ', res);
             if (res.error !== undefined) {
               showToast(res.error.message, toastType.DANGER);
               resetStateVars();
@@ -256,6 +277,7 @@ const ScanQR = ({ route }) => {
     setServiceEndpoint(null);
     setLoading(false);
     setServiceProviderState(AddingServiceProvider.confirmProject);
+    setBarCodeScanned(false);
   };
 
   const renderInfoBlocks = () => {
@@ -355,7 +377,10 @@ const ScanQR = ({ route }) => {
             buttonText={t('scanQR:submit')}
             inputFieldOptions={{
               error: serviceProviderFieldError,
-              onChangeText: (_userEmail) => setUserEmail(_userEmail),
+              onChangeText: (_userEmail) => {
+                console.log('_userEmail: ', _userEmail);
+                setUserEmail(_userEmail);
+              },
               label: t('scanQR:yourAnswer'),
             }}
           />
@@ -429,7 +454,7 @@ const ScanQR = ({ route }) => {
         onRequestClose={() => null}
         animationType="slide"
         transparent={true}
-        visible={fromAssistant ? null:modalVisible}>
+        visible={fromAssistant ? null : modalVisible}>
         {_projectScan ? renderProjectScanned() : renderKeySafeScannedModal()}
       </Modal>
       <RNCamera
