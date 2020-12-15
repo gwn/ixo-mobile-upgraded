@@ -99,7 +99,6 @@ const Assistant: React.FC<AssistantPageProps> = ({ navigation,route }) => {
     params: route.params === undefined ? {} : setQrData(route.params)
   }), [route])
 
-
    if (qrData.receiverAddress) {
   messagesChat.push({
     message:`The address of the receiver is      ${qrData.receiverAddress}       it was set successfully `,

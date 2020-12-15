@@ -117,13 +117,13 @@ const Wallet: React.FC<WalletProps> = ({ amount, navigation }) => {
           </View>
         </View>
         <View style={styles.moneyAmountContainer}>
-          <Text style={styles.currency}>{userAccount?userAccount.value.coins[2].denom :'ND' }</Text>
-          <Text style={styles.amountGeneral}>{userAccount?(userAccount.value.coins[2].amount/1000000).toFixed(2):'ND'}</Text>
+          <Text style={styles.currency}>{userAccount && userAccount.value.coins[2]!==undefined ?userAccount.value.coins[2].denom :'ND' }</Text>
+          <Text style={styles.amountGeneral}>{userAccount  && userAccount.value.coins[2]!==undefined ?(userAccount.value.coins[2].amount/1000000).toFixed(2):'ND'}</Text>
         </View>
         <ScrollView>
           <View style={styles.categoryContainer}>
             <Text style={styles.categoryText}>Wallet</Text>
-            <Text style={styles.categoryText}>{userAccount?(userAccount.value.coins[2].amount/1000000).toFixed(2):'ND'}</Text>
+            <Text style={styles.categoryText}>{userAccount && userAccount.value.coins[2]!==undefined ?(userAccount.value.coins[2].amount/1000000).toFixed(2):'ND'}</Text>
           </View>
           <View style={styles.flatlistWrapper}>
             {userAccount?
