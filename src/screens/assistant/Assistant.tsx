@@ -1,4 +1,4 @@
-import React, { useRef, useState,useEffect } from 'react';
+import React, { useRef, useState,useEffect,useMemo } from 'react';
 import {
   Image,
   Platform,
@@ -76,15 +76,10 @@ const BotThinkingAnimation: React.FC<TransactionAnimationProps> = ({style}) => {
 //TODO store chats in redux
 
 
-const Assistant: React.FC<AssistantPageProps> = ({ navigation }) => {
-
-
+const Assistant: React.FC<AssistantPageProps> = ({ navigation,route }) => {
 
   const userAccount:CosmosAccount = useSelector((state) => state.userStore.account);
-
   const  [receive, setReceive] =useState(false);
-
-  console.log("MY ACCOUNT ASSISTANT", userAccount );
 
   const validationAPi =new ValidationPipe();
   const cosmosAPi =new CosmosPipe();
@@ -95,20 +90,35 @@ const Assistant: React.FC<AssistantPageProps> = ({ navigation }) => {
   const scrollViewRef = useRef();
   const [counter, setCounter]=useState(0);
   const [botThinking,setBotThinking]= useState(false)
+  const [qrData,setQrData]=useState('');
 
   const mnemonic = useSelector((state) => state.userStore.user.mnemonic);
 
+  useMemo(() => ({
+    ...route,
+    params: route.params === undefined ? {} : setQrData(route.params)
+  }), [route])
+
+
+   if (qrData.receiverAddress) {
+  messagesChat.push({
+    message:`The address of the receiver is      ${qrData.receiverAddress}       it was set successfully `,
+
+    fromAssistant: true,
+  })
+   }
+
 
   const sendTestTransaction = async () =>{
-    let response = await cosmosAPi.sendMessage( mnemonic,'ixo1x70tkjl6kqy92h2d0rshhpga3a5m672wx59l9n');
+    let response = await cosmosAPi.sendMessage( 'oven fade spider sketch episode under glory flee summer kitchen stage ride window polar farm large monkey tortoise assault jar swift believe response degree', qrData.receiverAddress);
     console.log("HASH",response.txhash)
     setTransactionHash(response.txhash)
   }
-
+  //ixo1x70tkjl6kqy92h2d0rshhpga3a5m672wx59l9n - reciever
   // TODO use flatlist  instead map
 
   const validateTestTransaction = async () =>{
-    const  transaction = await validationAPi.getTransaction(transactionHash)
+    const  transaction = await validationAPi.getTransaction(transactionHash);
     setInputValue(`Transaction value ixo ${transaction.events[1].attributes[1].value.toString()} ,Transaction sender ${transaction.events[0].attributes[1].value.toString()},Transaction recipient ${transaction.events[1].attributes[0].value.toString()}`)
     console.log( "Transaction value ixo",transaction.events[1].attributes[1].value,"Transaction sender",transaction.events[0].attributes[1].value,"Transaction recipient",transaction.events[1].attributes[0].value);
     transaction.events !== undefined  ?
@@ -185,9 +195,6 @@ const Assistant: React.FC<AssistantPageProps> = ({ navigation }) => {
                             }>
                           {message}
                         </Text>
-
-
-
                         {custom? <Text
                             style={
                               fromAssistant ? styles.assistantText : styles.messageText
@@ -241,7 +248,7 @@ const Assistant: React.FC<AssistantPageProps> = ({ navigation }) => {
             <View style={styles.footer}>
               <TouchableOpacity
                   style={styles.footerButton}
-                  onPress={() => navigation.navigate('ScanQR',{ projectScan: false })}>
+                  onPress={() => navigation.navigate('ScanQR',{ projectScan: false, fromAssistant:true })}>
                 <Image source={Images.Options} style={styles.imageLeft} />
               </TouchableOpacity>
               <View style={styles.inputContainer}>
